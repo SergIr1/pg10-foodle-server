@@ -1,0 +1,11 @@
+/node_modules
+/temp/*
+!/temp/.gitkeep
+/uploads/*
+!/uploads/.gitkeep
+
+.env
+
+.vscode
+.DS_Store
+.idea
