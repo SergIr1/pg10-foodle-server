@@ -9,3 +9,6 @@
 .vscode
 .DS_Store
 .idea
+
+# pull requests list
+pullrequests-list.txt
