@@ -8,6 +8,7 @@ import {
   refreshUserSessionController,
   registerController,
 } from '../controllers/auth.js';
+import { authenticate } from '../middlewares/authenticate.js';
 
 const router = Router();
 
@@ -19,8 +20,8 @@ router.post(
 
 router.post('/login', validateBody(loginSchema), ctrlWrapper(loginController));
 
-router.post('/logout', ctrlWrapper(logoutController));
-
 router.post('/refresh', ctrlWrapper(refreshUserSessionController));
+
+router.post('/logout', authenticate, ctrlWrapper(logoutController));
 
 export default router;
