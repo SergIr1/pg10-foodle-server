@@ -1,9 +1,10 @@
 import { Router } from 'express';
-import { getAllIngredientsController } from '../controllers/ingredients.js';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
+import { getIngredientsController } from '../controllers/ingredients.js';
 
 const router = Router();
 
-router.get('/', ctrlWrapper(getAllIngredientsController));
+// GET /api/ingredients - публічний ендпоінт для отримання всіх інгредієнтів
+router.get('/', ctrlWrapper(getIngredientsController));
 
 export default router;
