@@ -6,7 +6,7 @@ import { parseSortParams } from '../utils/parseSortParams.js';
 export const getPublicRecipesController = async (req, res) => {};
 export const getRecipeByIdController = async (req, res) => {};
 
-export const createOwnRecipeController = async (req, res) => {
+export const createOwnRecipeController = async (req, res, next) => {
   try {
     const photo = req.file;
     let photoUrl;
@@ -21,7 +21,7 @@ export const createOwnRecipeController = async (req, res) => {
     const recipe = await createRecipe({
       ...req.body,
       photo: photoUrl,
-      userId: req.user._id,
+      owner: req.user._id,
     });
 
     res.status(201).json({

@@ -4,7 +4,7 @@ export const getPublicRecipes = async (filter, pagination) => {};
 export const getRecipeById = async (recipeId) => {};
 
 export const createRecipe = async (payload) => {
-  return await Recipe.create(payload);
+  return await RecipeCollections.create(payload);
 };
 
 export const getOwnRecipes = async (userId) => {};
