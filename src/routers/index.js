@@ -12,6 +12,6 @@ router.use('/api/users', authenticate, usersRouter);
 router.use('/api/auth', authenticate, authRouter);
 router.use('/api/categories', categoriesRouter);
 router.use('/api/ingredients', ingredientsRouter);
-router.use('/api/recipes', authenticate, recipesRouter);
+router.use('/api/recipes', recipesRouter);
 
 export default router;
