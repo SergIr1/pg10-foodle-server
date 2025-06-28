@@ -2,7 +2,11 @@ import { RecipeCollections } from '../db/models/recipe.js';
 
 export const getPublicRecipes = async (filter, pagination) => {};
 export const getRecipeById = async (recipeId) => {};
-export const createRecipe = async (data, ownerId) => {};
+
+export const createRecipe = async (payload) => {
+  return await RecipeCollections.create(payload);
+};
+
 export const getOwnRecipes = async (userId) => {};
 export const addFavoriteRecipe = async (userId, recipeId) => {};
 export const removeFavoriteRecipe = async (userId, recipeId) => {};
