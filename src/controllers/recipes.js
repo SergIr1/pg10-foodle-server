@@ -1,11 +1,39 @@
-import { getPaginatedRecipes } from '../services/recipes.js';
+import { getPaginatedRecipes, createRecipe } from '../services/recipes.js';
 import { parseFilterParams } from '../utils/parseFilterParams.js';
 import { parsePaginationParams } from '../utils/parsePaginationParams.js';
 import { parseSortParams } from '../utils/parseSortParams.js';
 
 export const getPublicRecipesController = async (req, res) => {};
 export const getRecipeByIdController = async (req, res) => {};
-export const createOwnRecipeController = async (req, res) => {};
+
+export const createOwnRecipeController = async (req, res) => {
+  try {
+    const photo = req.file;
+    let photoUrl;
+
+    if (photo) {
+      // useCloudinary = getEnvVar('ENABLE_CLOUDINARY') === 'true';
+      // photoUrl = useCloudinary
+      //   ? await saveFileToCloudinary(photo)
+      //   : await saveFileToUploadDir(photo);
+    }
+
+    const recipe = await createRecipe({
+      ...req.body,
+      photo: photoUrl,
+      userId: req.user._id,
+    });
+
+    res.status(201).json({
+      status: 201,
+      message: 'Recipe created successfully',
+      data: recipe,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const getOwnRecipesController = async (req, res) => {};
 export const addToFavoritesController = async (req, res) => {};
 export const removeFromFavoritesController = async (req, res) => {};
