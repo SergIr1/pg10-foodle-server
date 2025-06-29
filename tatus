@@ -1,0 +1,8 @@
+[33mcommit 929c80fc495c712619b92810f9bcfbb5e84a1e40[m[33m ([m[1;36mHEAD -> [m[1;32mtest-get-own-recipe[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m
+Merge: 5a5cb46 939ae0e
+Author: Serhii Karskyi <107553623+SergIr1@users.noreply.github.com>
+Date:   Sun Jun 29 21:57:22 2025 +0100
+
+    Merge pull request #13 from SergIr1/myBranch5
+    
+    fix pagination show 12 files
