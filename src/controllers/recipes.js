@@ -11,20 +11,21 @@ export const createOwnRecipeController = async (req, res) => {};
 export const getOwnRecipesController = async (req, res) => {};
 export const addToFavoritesController = async (req, res, next) => {
   try {
-    const { id } = req.params;
-
-    const user = await UserModel.findById(req.user._id);
-
+    const { recipeId } = req.params;
+    // console.log('AUTH:', req.user);
+    // console.log(req.user._id);
+    const user = await UserModel.findById(req.user.id);
+    // console.log(user);
     if (!user) {
       throw new createHttpError.NotFound('User not found');
     }
 
     const alreadyInFavorites = user.favorites.some(
-      (favoriteId) => favoriteId.toString() === id,
+      (favoriteId) => favoriteId.toString() === recipeId,
     );
 
     if (!alreadyInFavorites) {
-      user.favorites.push(id);
+      user.favorites.push(recipeId);
       await user.save();
     }
 
@@ -41,9 +42,9 @@ export const addToFavoritesController = async (req, res, next) => {
 };
 
 export const removeFromFavoritesController = async (req, res) => {
-  const { id } = req.params;
+  const { recipeId } = req.params;
 
-  const user = await UserModel.findById(req.user._id);
+  const user = await UserModel.findById(req.user.id);
 
   if (!user) {
     throw new createHttpError.NotFound('User not found');
@@ -52,7 +53,7 @@ export const removeFromFavoritesController = async (req, res) => {
   const originalLength = user.favorites.length;
 
   user.favorites = user.favorites.filter(
-    (favoriteId) => favoriteId.toString() !== id.toString(),
+    (favoriteId) => favoriteId.toString() !== recipeId.toString(),
   );
 
   if (user.favorites.length === originalLength) {
@@ -64,18 +65,22 @@ export const removeFromFavoritesController = async (req, res) => {
   res.status(204).end();
 };
 
-export const getFavoriteRecipesController = async (req, res) => {
-  const user = await UserModel.findById(req.user._id).populate('favorites');
+export const getFavoriteRecipesController = async (req, res, next) => {
+  try {
+    const user = await UserModel.findById(req.user.id).populate('favorites');
 
-  if (!user) {
-    throw new createHttpError.NotFound('User not found');
+    if (!user) {
+      throw new createHttpError.NotFound('User not found');
+    }
+
+    res.status(200).json({
+      status: 200,
+      message: 'Favorites retrieved successfully',
+      data: user.favorites,
+    });
+  } catch (error) {
+    next(error);
   }
-
-  res.status(200).json({
-    status: 200,
-    message: 'Favorites retrieved successfully',
-    data: user.favorites,
-  });
 };
 
 export const deleteOwnRecipeController = async (req, res) => {};

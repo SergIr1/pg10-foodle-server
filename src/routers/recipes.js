@@ -20,6 +20,12 @@ const router = Router();
 
 router.get('/search', ctrlWrapper(searchRecipesController));
 
+router.get(
+  '/favorite',
+  authenticate,
+  ctrlWrapper(getFavoriteRecipesController),
+);
+
 router.get('/:recipeId', isValidId, ctrlWrapper(getRecipeByIdController));
 
 router.post(
@@ -43,12 +49,6 @@ router.delete(
   authenticate,
   isValidId,
   ctrlWrapper(removeFromFavoritesController),
-);
-
-router.get(
-  '/favorite',
-  authenticate,
-  ctrlWrapper(getFavoriteRecipesController),
 );
 
 router.delete(
