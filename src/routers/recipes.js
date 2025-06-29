@@ -26,6 +26,7 @@ router.get('/:recipeId', isValidId, ctrlWrapper(getRecipeByIdController));
 router.post(
   '/',
   authenticate,
+  upload.single('photo'),
   validateBody(recipeSchema),
   ctrlWrapper(createOwnRecipeController),
 );
@@ -35,7 +36,6 @@ router.get('/own', authenticate, ctrlWrapper(getOwnRecipesController));
 router.post(
   '/:recipeId/favorite',
   authenticate,
-  upload.single('photo'),
   isValidId,
   ctrlWrapper(addToFavoritesController),
 );

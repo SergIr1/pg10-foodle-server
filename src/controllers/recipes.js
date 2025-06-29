@@ -23,7 +23,7 @@ export const createOwnRecipeController = async (req, res, next) => {
       }
     }
     const recipe = await createRecipe({
-      ...res.body,
+      ...req.body,
       photo: photoUrl,
       owner: req.user._id,
     });
