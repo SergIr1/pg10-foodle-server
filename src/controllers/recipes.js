@@ -25,7 +25,7 @@ export const createOwnRecipeController = async (req, res, next) => {
     const recipe = await createRecipe({
       ...req.body,
       photo: photoUrl,
-      owner: req.user._id,
+      owner: req.user.id,
     });
     res.status(201).json({
       status: 201,
