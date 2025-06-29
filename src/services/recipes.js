@@ -7,7 +7,9 @@ export const getRecipeById = async (recipeId) => {};
 export const createRecipe = async (payload) => {
   return await RecipeCollections.create(payload);
 };
-export const getOwnRecipes = async (userId) => {};
+export const getOwnRecipes = async (userId) => {
+  return (getRecipe = await RecipeCollections.find({ owner: userId }));
+};
 export const addFavoriteRecipe = async (userId, recipeId) => {
   const user = await UserModel.findById(userId);
   if (!user) {

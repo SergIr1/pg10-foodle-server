@@ -3,6 +3,7 @@ import { parseFilterParams } from '../utils/parseFilterParams.js';
 import { parsePaginationParams } from '../utils/parsePaginationParams.js';
 import { parseSortParams } from '../utils/parseSortParams.js';
 import { UserModel } from '../db/models/user.js';
+import { RecipeCollections } from '../db/models/recipe.js';
 import createHttpError from 'http-errors';
 import { saveFileToUploadDir } from '../utils/saveFileToUploadDir.js';
 import { saveFileToCloudinary } from '../utils/saveFileToCloudinary.js';
@@ -36,7 +37,19 @@ export const createOwnRecipeController = async (req, res, next) => {
     next(err);
   }
 };
-export const getOwnRecipesController = async (req, res) => {};
+export const getOwnRecipesController = async (req, res) => {
+  const recipes = await RecipeCollections.find({ owner: req.user.id });
+
+  if (recipes.length === 0) {
+    throw new createHttpError.NotFound('You have no recipes');
+  }
+
+  res.status(200).json({
+    status: 200,
+    message: 'Successfully retrieved own recipes!',
+    data: recipes,
+  });
+};
 export const addToFavoritesController = async (req, res, next) => {
   try {
     const { recipeId } = req.params;
