@@ -64,19 +64,24 @@ export const removeFromFavoritesController = async (req, res) => {
   res.status(204).end();
 };
 
-export const getFavoriteRecipesController = async (req, res) => {
-  const user = await UserModel.findById(req.user._id).populate('favorites');
+export const getFavoriteRecipesController = async (req, res, next) => {
+  try {
+    const user = await UserModel.findById(req.user._id).populate('favorites');
 
-  if (!user) {
-    throw new createHttpError.NotFound('User not found');
+    if (!user) {
+      throw new createHttpError.NotFound('User not found');
+    }
+
+    res.status(200).json({
+      status: 200,
+      message: 'Favorites retrieved successfully',
+      data: user.favorites,
+    });
+  } catch (error) {
+    next(error);
   }
-
-  res.status(200).json({
-    status: 200,
-    message: 'Favorites retrieved successfully',
-    data: user.favorites,
-  });
 };
+
 
 export const deleteOwnRecipeController = async (req, res) => {};
 export const searchRecipesController = async (req, res, next) => {
