@@ -12,8 +12,8 @@ const router = Router();
 // router.get('/api/users', authMiddleware, ctrlWrapper(getAllUsersController));
 router.get('/', ctrlWrapper(getAllUsersController));
 
-router.get('/:userId', isValidId, ctrlWrapper(getUserByIdController));
-
 router.get('/current', ctrlWrapper(getCurrentUserController));
+
+router.get('/:userId', isValidId, ctrlWrapper(getUserByIdController));
 
 export default router;

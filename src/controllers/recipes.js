@@ -2,7 +2,7 @@ import { getPaginatedRecipes } from '../services/recipes.js';
 import { parseFilterParams } from '../utils/parseFilterParams.js';
 import { parsePaginationParams } from '../utils/parsePaginationParams.js';
 import { parseSortParams } from '../utils/parseSortParams.js';
-import  {UserModel}  from '../db/models/user.js';
+import { UserModel } from '../db/models/user.js';
 import createHttpError from 'http-errors';
 
 export const getPublicRecipesController = async (req, res) => {};
@@ -20,7 +20,9 @@ export const addToFavoritesController = async (req, res, next) => {
     }
 
     const alreadyInFavorites = user.favorites.some(
-      favoriteId => favoriteId.toString() === id
+
+      (favoriteId) => favoriteId.toString() === id,
+
     );
 
     if (!alreadyInFavorites) {
@@ -37,7 +39,9 @@ export const addToFavoritesController = async (req, res, next) => {
   } catch (error) {
     console.error('Add to favorites error:', error);
     next(error);
-  };
+
+  }
+
 };
 
 export const removeFromFavoritesController = async (req, res) => {
@@ -52,7 +56,9 @@ export const removeFromFavoritesController = async (req, res) => {
   const originalLength = user.favorites.length;
 
   user.favorites = user.favorites.filter(
-    favoriteId => favoriteId.toString() !== id.toString()
+
+    (favoriteId) => favoriteId.toString() !== id.toString(),
+
   );
 
   if (user.favorites.length === originalLength) {
@@ -61,7 +67,9 @@ export const removeFromFavoritesController = async (req, res) => {
 
   await user.save();
 
-  res.status(204).end(); 
+
+  res.status(204).end();
+
 };
 
 export const getFavoriteRecipesController = async (req, res) => {

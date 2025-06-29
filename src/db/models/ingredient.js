@@ -1,18 +1,20 @@
-import { model, Schema } from 'mongoose';
+import { Schema, model } from 'mongoose';
 
 const ingredientSchema = new Schema(
   {
     name: {
       type: String,
       required: true,
+      unique: true,
+      trim: true,
     },
-    desc: {
+    description: {
       type: String,
-      required: false,
+      trim: true,
     },
-    img: {
+    image: {
       type: String,
-      required: false,
+      default: null,
     },
   },
   {
@@ -21,4 +23,5 @@ const ingredientSchema = new Schema(
   },
 );
 
-export const IngredientCollections = model('Ingredient', ingredientSchema);
+const IngredientCollection = model('Ingredient', ingredientSchema);
+export default IngredientCollection;

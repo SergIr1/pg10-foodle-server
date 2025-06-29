@@ -9,7 +9,7 @@ import { authenticate } from '../middlewares/authenticate.js';
 const router = Router();
 
 router.use('/api/users', authenticate, usersRouter);
-router.use('/api/auth', authenticate, authRouter);
+router.use('/api/auth', authRouter);
 router.use('/api/categories', categoriesRouter);
 router.use('/api/ingredients', ingredientsRouter);
 router.use('/api/recipes', recipesRouter);
