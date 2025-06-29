@@ -20,7 +20,9 @@ export const addToFavoritesController = async (req, res, next) => {
     }
 
     const alreadyInFavorites = user.favorites.some(
+
       (favoriteId) => favoriteId.toString() === id,
+
     );
 
     if (!alreadyInFavorites) {
@@ -37,7 +39,9 @@ export const addToFavoritesController = async (req, res, next) => {
   } catch (error) {
     console.error('Add to favorites error:', error);
     next(error);
+
   }
+
 };
 
 export const removeFromFavoritesController = async (req, res) => {
@@ -52,7 +56,9 @@ export const removeFromFavoritesController = async (req, res) => {
   const originalLength = user.favorites.length;
 
   user.favorites = user.favorites.filter(
+
     (favoriteId) => favoriteId.toString() !== id.toString(),
+
   );
 
   if (user.favorites.length === originalLength) {
@@ -61,7 +67,9 @@ export const removeFromFavoritesController = async (req, res) => {
 
   await user.save();
 
+
   res.status(204).end();
+
 };
 
 export const getFavoriteRecipesController = async (req, res) => {
