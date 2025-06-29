@@ -2,10 +2,11 @@ import { RecipeCollections } from '../db/models/recipe.js';
 import { UserModel } from '../db/models/user.js';
 import createHttpError from 'http-errors';
 
-
 export const getPublicRecipes = async (filter, pagination) => {};
 export const getRecipeById = async (recipeId) => {};
-export const createRecipe = async (data, ownerId) => {};
+export const createRecipe = async (payload) => {
+  return await RecipeCollections.create(payload);
+};
 export const getOwnRecipes = async (userId) => {};
 export const addFavoriteRecipe = async (userId, recipeId) => {
   const user = await UserModel.findById(userId);
@@ -14,7 +15,7 @@ export const addFavoriteRecipe = async (userId, recipeId) => {
   }
 
   const isFavorite = user.favorites.some(
-    favoriteId => favoriteId.toString() === recipeId.toString()
+    (favoriteId) => favoriteId.toString() === recipeId.toString(),
   );
 
   if (!isFavorite) {
@@ -35,7 +36,7 @@ export const removeFavoriteRecipe = async (userId, recipeId) => {
   const initialLength = user.favorites.length;
 
   user.favorites = user.favorites.filter(
-    favoriteId => favoriteId.toString() !== recipeId.toString()
+    (favoriteId) => favoriteId.toString() !== recipeId.toString(),
   );
 
   if (user.favorites.length === initialLength) {
@@ -45,7 +46,7 @@ export const removeFavoriteRecipe = async (userId, recipeId) => {
   await user.save();
 };
 export const getFavoriteRecipes = async (userId) => {
- const user = await UserModel.findById(userId).populate('favorites');
+  const user = await UserModel.findById(userId).populate('favorites');
 
   if (!user) {
     throw new createHttpError.NotFound('User not found');
