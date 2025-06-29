@@ -15,6 +15,7 @@ import { isValidId } from '../middlewares/isValidId.js';
 import { validateBody } from '../middlewares/validateBody.js';
 import { recipeSchema } from '../validation/recipe.js';
 import { authenticate } from '../middlewares/authenticate.js';
+import { upload } from '../middlewares/multer.js';
 
 const router = Router();
 
@@ -31,6 +32,7 @@ router.get('/:recipeId', isValidId, ctrlWrapper(getRecipeByIdController));
 router.post(
   '/',
   authenticate,
+  upload.single('photo'),
   validateBody(recipeSchema),
   ctrlWrapper(createOwnRecipeController),
 );

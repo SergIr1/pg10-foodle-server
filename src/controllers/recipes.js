@@ -1,13 +1,41 @@
-import { getPaginatedRecipes } from '../services/recipes.js';
+import { getPaginatedRecipes, createRecipe } from '../services/recipes.js';
 import { parseFilterParams } from '../utils/parseFilterParams.js';
 import { parsePaginationParams } from '../utils/parsePaginationParams.js';
 import { parseSortParams } from '../utils/parseSortParams.js';
 import { UserModel } from '../db/models/user.js';
 import createHttpError from 'http-errors';
+import { saveFileToUploadDir } from '../utils/saveFileToUploadDir.js';
+import { saveFileToCloudinary } from '../utils/saveFileToCloudinary.js';
+import { getEnvVar } from '../utils/getEnvVar.js';
 
 export const getPublicRecipesController = async (req, res) => {};
 export const getRecipeByIdController = async (req, res) => {};
-export const createOwnRecipeController = async (req, res) => {};
+export const createOwnRecipeController = async (req, res, next) => {
+  try {
+    const photo = req.file;
+    let photoUrl;
+
+    if (photo) {
+      if (getEnvVar('ENABLE_CLOUDINARY') === 'true') {
+        photoUrl = await saveFileToCloudinary(photo);
+      } else {
+        photoUrl = await saveFileToUploadDir(photo);
+      }
+    }
+    const recipe = await createRecipe({
+      ...req.body,
+      photo: photoUrl,
+      owner: req.user._id,
+    });
+    res.status(201).json({
+      status: 201,
+      message: 'Recipe created successfully',
+      data: recipe,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
 export const getOwnRecipesController = async (req, res) => {};
 export const addToFavoritesController = async (req, res, next) => {
   try {
