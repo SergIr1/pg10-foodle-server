@@ -143,7 +143,16 @@ export const getFavoriteRecipesController = async (req, res, next) => {
   }
 };
 
-export const deleteOwnRecipeController = async (req, res) => {};
+import { deleteOwnRecipe } from '../services/recipes.js';
+
+export const deleteOwnRecipeController = async (req, res, next) => {
+  const { recipeId } = req.params;
+
+  await deleteOwnRecipe(req.user.id, recipeId);
+
+  res.status(204).end();
+};
+
 export const searchRecipesController = async (req, res, next) => {
   const pagination = parsePaginationParams(req.query);
   const sorting = parseSortParams(req.query);
