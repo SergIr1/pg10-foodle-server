@@ -1,15 +1,17 @@
-import { getPaginatedRecipes, createRecipe } from '../services/recipes.js';
+import {
+  getPaginatedRecipes,
+  createRecipe,
+  getOwnRecipes,
+} from '../services/recipes.js';
 import { parseFilterParams } from '../utils/parseFilterParams.js';
 import { parsePaginationParams } from '../utils/parsePaginationParams.js';
 import { parseSortParams } from '../utils/parseSortParams.js';
 import { UserModel } from '../db/models/user.js';
-import { RecipeCollections } from '../db/models/recipe.js';
 import createHttpError from 'http-errors';
 import { saveFileToUploadDir } from '../utils/saveFileToUploadDir.js';
 import { saveFileToCloudinary } from '../utils/saveFileToCloudinary.js';
 import { getEnvVar } from '../utils/getEnvVar.js';
 
-export const getPublicRecipesController = async (req, res) => {};
 export const getRecipeByIdController = async (req, res) => {};
 export const createOwnRecipeController = async (req, res, next) => {
   try {
@@ -38,16 +40,18 @@ export const createOwnRecipeController = async (req, res, next) => {
   }
 };
 export const getOwnRecipesController = async (req, res) => {
-  const recipes = await RecipeCollections.find({ owner: req.user.id });
+  const { page, perPage } = parsePaginationParams(req.query);
 
-  if (recipes.length === 0) {
+  const result = await getOwnRecipes(req.user.id, page, perPage);
+
+  if (result.data.length === 0) {
     throw new createHttpError.NotFound('You have no recipes');
   }
 
   res.status(200).json({
     status: 200,
     message: 'Successfully retrieved own recipes!',
-    data: recipes,
+    data: result,
   });
 };
 export const addToFavoritesController = async (req, res, next) => {
