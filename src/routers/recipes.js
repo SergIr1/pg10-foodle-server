@@ -19,7 +19,7 @@ import { upload } from '../middlewares/multer.js';
 import { parseIngredients } from '../middlewares/parseIngredients.js';
 const router = Router();
 
-router.get('/search', ctrlWrapper(searchRecipesController));
+router.get('/', ctrlWrapper(searchRecipesController));
 
 router.get(
   '/favorite',
