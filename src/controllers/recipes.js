@@ -2,6 +2,7 @@ import {
   getPaginatedRecipes,
   createRecipe,
   getOwnRecipes,
+  getRecipeById,
 } from '../services/recipes.js';
 import { parseFilterParams } from '../utils/parseFilterParams.js';
 import { parsePaginationParams } from '../utils/parsePaginationParams.js';
@@ -12,7 +13,21 @@ import { saveFileToUploadDir } from '../utils/saveFileToUploadDir.js';
 import { saveFileToCloudinary } from '../utils/saveFileToCloudinary.js';
 import { getEnvVar } from '../utils/getEnvVar.js';
 
-export const getRecipeByIdController = async (req, res) => {};
+export const getRecipeByIdController = async (req, res, next) => {
+  try {
+    const { recipeId } = req.params;
+    const recipe = await getRecipeById(recipeId);
+
+    res.status(200).json({
+      status: 200,
+      message: 'Recipe retrieved successfully',
+      data: recipe,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const createOwnRecipeController = async (req, res, next) => {
   try {
     const photo = req.file;

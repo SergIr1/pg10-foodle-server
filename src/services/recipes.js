@@ -2,7 +2,18 @@ import { RecipeCollections } from '../db/models/recipe.js';
 import { UserModel } from '../db/models/user.js';
 import createHttpError from 'http-errors';
 
-export const getRecipeById = async (recipeId) => {};
+export const getRecipeById = async (recipeId) => {
+  const recipe = await RecipeCollections.findById(recipeId)
+    .populate('ingredients.id', '-__v')
+    .populate('owner', 'name email avatar');
+
+  if (!recipe) {
+    throw new createHttpError.NotFound('Recipe not found');
+  }
+
+  return recipe;
+};
+
 export const createRecipe = async (payload) => {
   return await RecipeCollections.create(payload);
 };
