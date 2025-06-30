@@ -85,3 +85,33 @@ export const refreshUserSession = async (sessionId, refreshToken) => {
     ...newSession,
   });
 };
+
+//GOOGLE AUTH
+
+export async function loginOrRegister(email, name) {
+  let user = await UserModel.findOne({ email });
+
+  if (user === null) {
+    const password = await bcrypt.hash(
+      crypto.randomBytes(30).toString('base64'),
+      10,
+    );
+
+    user = await UserModel.create({ name, email, password });
+  }
+
+  const accessToken = crypto.randomBytes(30).toString('base64');
+  const refreshToken = crypto.randomBytes(30).toString('base64');
+
+  await SessionCollection.deleteOne({ userId: user._id, refreshToken });
+
+  const session = await SessionCollection.create({
+    userId: user._id,
+    accessToken,
+    refreshToken,
+    accessTokenValidUntil: new Date(Date.now() + 15 * 60 * 1000),
+    refreshTokenValidUntil: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+  });
+
+  return session;
+}

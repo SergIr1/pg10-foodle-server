@@ -3,7 +3,10 @@ import {
   logout,
   refreshUserSession,
   register,
+  loginOrRegister,
 } from '../services/auth.js';
+
+import { getOAuthURL, validateCode } from '../utils/googleOAuth.js';
 
 export const registerController = async (req, res, next) => {
   const user = await register(req.body);
@@ -82,3 +85,44 @@ export const refreshUserSessionController = async (req, res) => {
     },
   });
 };
+
+//GOOGLE AUTH
+
+export function getOAuthController(req, res) {
+  const url = getOAuthURL();
+
+  res.json({
+    status: 200,
+    message: 'Successfully get OAuth url!',
+    data: {
+      oauth_url: url,
+    },
+  });
+}
+
+export async function confirmOAuthController(req, res) {
+  const ticket = await validateCode(req.body.code);
+
+  const session = await loginOrRegister(
+    ticket.payload.email,
+    ticket.payload.name,
+  );
+
+  res.cookie('sessionId', session._id, {
+    httpOnly: true,
+    expires: session.refreshTokenValidUntil,
+  });
+
+  res.cookie('refreshToken', session.refreshToken, {
+    httpOnly: true,
+    expires: session.refreshTokenValidUntil,
+  });
+
+  res.json({
+    status: 200,
+    message: 'Successfully login with Google!',
+    data: {
+      accessToken: session.accessToken,
+    },
+  });
+}
