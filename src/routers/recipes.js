@@ -27,6 +27,8 @@ router.get(
   ctrlWrapper(getFavoriteRecipesController),
 );
 
+router.get('/own', authenticate, ctrlWrapper(getOwnRecipesController));
+
 router.get('/:recipeId', isValidId, ctrlWrapper(getRecipeByIdController));
 
 router.post(
@@ -37,8 +39,6 @@ router.post(
   validateBody(recipeSchema),
   ctrlWrapper(createOwnRecipeController),
 );
-
-router.get('/own', authenticate, ctrlWrapper(getOwnRecipesController));
 
 router.post(
   '/:recipeId/favorite',

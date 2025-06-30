@@ -2,14 +2,37 @@ import { RecipeCollections } from '../db/models/recipe.js';
 import { UserModel } from '../db/models/user.js';
 import createHttpError from 'http-errors';
 
-export const getPublicRecipes = async (filter, pagination) => {};
 export const getRecipeById = async (recipeId) => {};
 export const createRecipe = async (payload) => {
   return await RecipeCollections.create(payload);
 };
-export const getOwnRecipes = async (userId) => {
-  return (getRecipe = await RecipeCollections.find({ owner: userId }));
+
+export const getOwnRecipes = async (userId, page = 1, perPage = 12) => {
+  const skip = (page - 1) * perPage;
+
+  const query = { owner: userId };
+
+  const [totalItems, data] = await Promise.all([
+    RecipeCollections.countDocuments(query),
+    RecipeCollections.find(query)
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(perPage),
+  ]);
+
+  const totalPages = Math.ceil(totalItems / perPage);
+
+  return {
+    data,
+    page,
+    perPage,
+    totalItems,
+    totalPages,
+    hasNextPage: page < totalPages,
+    hasPreviousPage: page > 1,
+  };
 };
+
 export const addFavoriteRecipe = async (userId, recipeId) => {
   const user = await UserModel.findById(userId);
   if (!user) {
