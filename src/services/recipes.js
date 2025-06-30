@@ -90,7 +90,26 @@ export const getFavoriteRecipes = async (userId) => {
 
   return user.favorites;
 };
-export const deleteOwnRecipe = async (userId, recipeId) => {};
+export const deleteOwnRecipe = async (userId, recipeId) => {
+  const recipe = await RecipeCollections.findById(recipeId);
+
+  if (!recipe) {
+    throw new createHttpError.NotFound('Recipe not found');
+  }
+
+  if (recipe.owner.toString() !== userId.toString()) {
+    throw new createHttpError.Forbidden('You can delete only your own recipe');
+  }
+
+  await RecipeCollections.findByIdAndDelete(recipeId);
+
+  await UserModel.updateMany(
+    { favorites: recipeId },
+    { $pull: { favorites: recipeId } },
+  );
+
+  return;
+};
 export const getPaginatedRecipes = async ({
   page,
   perPage,
