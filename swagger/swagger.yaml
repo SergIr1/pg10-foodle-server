@@ -13,13 +13,17 @@ servers:
 paths:
   # AUTH
   /auth/register:
-    $ref: './paths/auth.yaml#/register'
+    $ref: './paths/auth.yaml#/auth/register'
   /auth/login:
-    $ref: './paths/auth.yaml#/login'
+    $ref: './paths/auth.yaml#/auth/login'
   /auth/logout:
-    $ref: './paths/auth.yaml#/logout'
+    $ref: './paths/auth.yaml#/auth/logout'
   /auth/current:
-    $ref: './paths/auth.yaml#/current'
+    $ref: './paths/auth.yaml#/auth/current'
+  /auth/google-oauth-url:
+    $ref: './paths/auth.yaml#/auth/google-oauth-url'
+  /auth/confirm-oauth:
+    $ref: './paths/auth.yaml#/auth/confirm-oauth'
 
   # USERS
   /users/current:
