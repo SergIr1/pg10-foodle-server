@@ -1,0 +1,41 @@
+type: object
+properties:
+  _id:
+    type: string
+  title:
+    type: string
+  category:
+    type: string
+  area:
+    type: string
+  instructions:
+    type: string
+  description:
+    type: string
+  time:
+    type: string
+  ingredients:
+    type: array
+    items:
+      type: object
+      properties:
+        id:
+          type: string
+        measure:
+          type: string
+  preview:
+    type: string
+    format: uri
+  youtube:
+    type: string
+    format: uri
+  tags:
+    type: array
+    items:
+      type: string
+  likes:
+    type: number
+  createdAt:
+    type: string
+    format: date-time
+  updatedAt: t

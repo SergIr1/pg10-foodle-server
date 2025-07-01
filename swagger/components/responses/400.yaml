@@ -1,4 +1,4 @@
-description: Unauthorized. The request requires user authentication.
+description: Bad Request. Validation failed or invalid input.
 content:
   application/json:
     schema:
@@ -6,4 +6,4 @@ content:
       properties:
         message:
           type: string
-          example: Unauthorized
+          example: Bad request

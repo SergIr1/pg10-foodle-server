@@ -1,0 +1,100 @@
+openapi: 3.0.3
+info:
+  title: Tasteorama API
+  description: API documentation for Tasteorama backend
+  version: 1.0.0
+
+servers:
+  - url: 'https://your-domain.com/api'
+    description: Production server
+  - url: 'http://localhost:3000/api'
+    description: Local server
+
+paths:
+  # AUTH
+  /auth/register:
+    $ref: './paths/auth.yaml#/register'
+  /auth/login:
+    $ref: './paths/auth.yaml#/login'
+  /auth/logout:
+    $ref: './paths/auth.yaml#/logout'
+  /auth/current:
+    $ref: './paths/auth.yaml#/current'
+
+  # USERS
+  /users/current:
+    $ref: './paths/users.yaml#/current'
+  /users/avatar:
+    $ref: './paths/users.yaml#/avatar'
+
+  # CATEGORIES
+  /categories:
+    $ref: './paths/categories.yaml#/root'
+
+  # INGREDIENTS
+  /ingredients:
+    $ref: './paths/ingredients.yaml#/root'
+
+  # RECIPES
+  /recipes:
+    $ref: './paths/recipes.yaml#/root'
+  /recipes/{id}:
+    $ref: './paths/recipes.yaml#/byId'
+
+  # FAVORITES
+  /favorites:
+    $ref: './paths/favorites.yaml#/root'
+  /favorites/{id}:
+    $ref: './paths/favorites.yaml#/byId'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    User:
+      $ref: './components/schemas/user.yaml'
+    Recipe:
+      $ref: './components/schemas/recipe.yaml'
+    Favorite:
+      $ref: './components/schemas/favorite.yaml'
+
+  responses:
+    400:
+      $ref: './components/responses/400.yaml'
+    401:
+      $ref: './components/responses/401.yaml'
+    404:
+      $ref: './components/responses/404.yaml'
+    500:
+      $ref: './components/responses/500.yaml'
+
+  parameters:
+    PageParam:
+      name: page
+      in: query
+      description: Page number for pagination
+      required: false
+      schema:
+        type: integer
+        default: 1
+
+    LimitParam:
+      name: limit
+      in: query
+      description: Number of items per page
+      required: false
+      schema:
+        type: integer
+        default: 10
+
+    SearchParam:
+      name: search
+      in: query
+      description: Search term
+      required: false
+      schema:
+        type: string
