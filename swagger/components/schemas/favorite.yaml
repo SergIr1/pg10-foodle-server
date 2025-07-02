@@ -1,0 +1,6 @@
+type: object
+properties:
+  userId:
+    type: string
+  recipeId:
+    type: string

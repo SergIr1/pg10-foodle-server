@@ -1,1 +1,9 @@
-# here 500.yaml
+description: Internal Server Error. Something went wrong on the server.
+content:
+  application/json:
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Internal server error
