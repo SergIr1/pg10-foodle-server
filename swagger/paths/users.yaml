@@ -1,0 +1,53 @@
+/users/current:
+  get:
+    tags:
+      - Users
+    summary: Get current user profile
+    security:
+      - bearerAuth: []
+    responses:
+      '200':
+        description: Current user profile
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      '401':
+        $ref: '#/components/responses/401'
+      '500':
+        $ref: '#/components/responses/500'
+
+/users/avatar:
+  patch:
+    tags:
+      - Users
+    summary: Update user avatar
+    security:
+      - bearerAuth: []
+    requestBody:
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              avatar:
+                type: string
+                format: binary
+    responses:
+      '200':
+        description: Avatar updated successfully
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                avatarURL:
+                  type: string
+                  format: uri
+      '400':
+        $ref: '#/components/responses/400'
+      '401':
+        $ref: '#/components/responses/401'
+      '500':
+        $ref: '#/components/responses/500'

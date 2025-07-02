@@ -1,0 +1,80 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Tasteorama API",
+    "description": "API documentation for Tasteorama backend",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://your-domain.com/api",
+      "description": "Production server"
+    },
+    {
+      "url": "http://localhost:3000/api",
+      "description": "Local server"
+    }
+  ],
+  "paths": {
+    "/auth/register": { "$ref": "../swagger/paths/auth.yaml#/register" },
+    "/auth/login": { "$ref": "../swagger/paths/auth.yaml#/login" },
+    "/auth/logout": { "$ref": "../swagger/paths/auth.yaml#/logout" },
+    "/auth/current": { "$ref": "../swagger/paths/auth.yaml#/current" },
+
+    "/users/current": { "$ref": "../swagger/paths/users.yaml#/current" },
+    "/users/avatar": { "$ref": "../swagger/paths/users.yaml#/avatar" },
+
+    "/categories": { "$ref": "../swagger/paths/categories.yaml#/root" },
+
+    "/ingredients": { "$ref": "../swagger/paths/ingredients.yaml#/root" },
+
+    "/recipes": { "$ref": "../swagger/paths/recipes.yaml#/root" },
+    "/recipes/{id}": { "$ref": "../swagger/paths/recipes.yaml#/byId" },
+
+    "/favorites": { "$ref": "../swagger/paths/favorites.yaml#/root" },
+    "/favorites/{id}": { "$ref": "../swagger/paths/favorites.yaml#/byId" }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "User": { "$ref": "../swagger/components/schemas/user.yaml" },
+      "Recipe": { "$ref": "../swagger/components/schemas/recipe.yaml" },
+      "Favorite": { "$ref": "../swagger/components/schemas/favorite.yaml" }
+    },
+    "responses": {
+      "400": { "$ref": "../swagger/components/responses/400.yaml#/BadRequest" },
+      "401": { "$ref": "../swagger/components/responses/401.yaml#/Unauthorized" },
+      "404": { "$ref": "../swagger/components/responses/404.yaml#/NotFound" },
+      "500": { "$ref": "../swagger/components/responses/500.yaml#/ServerError" }
+    },
+    "parameters": {
+      "PageParam": {
+        "name": "page",
+        "in": "query",
+        "description": "Page number for pagination",
+        "required": false,
+        "schema": { "type": "integer", "default": 1 }
+      },
+      "LimitParam": {
+        "name": "limit",
+        "in": "query",
+        "description": "Number of items per page",
+        "required": false,
+        "schema": { "type": "integer", "default": 10 }
+      },
+      "SearchParam": {
+        "name": "search",
+        "in": "query",
+        "description": "Search term",
+        "required": false,
+        "schema": { "type": "string" }
+      }
+    }
+  }
+}

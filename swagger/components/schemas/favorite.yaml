@@ -1,0 +1,10 @@
+required:
+  - userId
+  - recipeId
+properties:
+  userId:
+    type: string
+    example: '64ac5c439bdf4a001c7a9c12'
+  recipeId:
+    type: string
+    example: '60dbf9f1c2a5f23d4c8e9a2b'

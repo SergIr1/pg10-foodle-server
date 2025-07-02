@@ -1,0 +1,9 @@
+PageParam:
+  name: page
+  in: query
+  description: Page number for pagination (starts from 1)
+  required: false
+  schema:
+    type: integer
+    minimum: 1
+    default: 1

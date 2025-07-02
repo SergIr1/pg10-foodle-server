@@ -1,5 +1,5 @@
-ServerError:
-  description: Internal Server Error. An unexpected error occurred on the server.
+NotFound:
+  description: Not Found. The requested resource does not exist.
   content:
     application/json:
       schema:
@@ -11,10 +11,10 @@ ServerError:
         properties:
           status:
             type: integer
-            example: 500
+            example: 404
           message:
             type: string
-            example: InternalServerError
+            example: NotFoundError
           data:
             type: object
             required:
@@ -22,4 +22,4 @@ ServerError:
             properties:
               message:
                 type: string
-                example: 'Internal server error'
+                example: 'Resource not found'
