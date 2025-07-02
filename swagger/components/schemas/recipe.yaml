@@ -1,41 +1,79 @@
 type: object
+
+required:
+  - _id
+  - title
+  - description
+  - time
+  - category
+  - ingredients
+  - instructions
 properties:
   _id:
     type: string
+    example: '60dbf9f1c2a5f23d4c8e9a2b'
   title:
     type: string
-  category:
-    type: string
-  area:
-    type: string
-  instructions:
-    type: string
+    example: 'Chocolate Cake'
   description:
     type: string
+    example: 'Rich and moist chocolate cake'
   time:
+    type: integer
+    description: Time in minutes
+    example: 45
+  calories:
+    type: integer
+    nullable: true
+    example: 350
+  category:
     type: string
+    example: 'Dessert'
+
   ingredients:
     type: array
     items:
       type: object
+
+      required:
+        - name
+        - amount
       properties:
-        id:
+        name:
           type: string
-        measure:
+          example: 'Flour'
+        amount:
           type: string
+          example: '200g'
+  instructions:
+    type: string
+    example: 'Preheat oven to 180°C, mix ingredients...'
   preview:
     type: string
     format: uri
+    nullable: true
+    example: 'https://example.com/images/cake.jpg'
   youtube:
     type: string
     format: uri
+    nullable: true
+    example: 'https://youtu.be/abcd1234'
+
   tags:
     type: array
     items:
       type: string
+    nullable: true
+    example: ['dessert', 'chocolate']
   likes:
-    type: number
+    type: integer
+    nullable: true
+    example: 128
   createdAt:
     type: string
     format: date-time
-  updatedAt: t
+    example: '2025-07-01T12:34:56.789Z'
+  updatedAt:
+    type: string
+    format: date-time
+    example: '2025-07-02T08:21:30.456Z'

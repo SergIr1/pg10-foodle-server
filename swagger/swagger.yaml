@@ -13,6 +13,7 @@ servers:
 paths:
   # AUTH
   /auth/register:
+<<<<<<< HEAD
     $ref: './paths/auth.yaml#/auth/register'
   /auth/login:
     $ref: './paths/auth.yaml#/auth/login'
@@ -24,6 +25,15 @@ paths:
     $ref: './paths/auth.yaml#/auth/google-oauth-url'
   /auth/confirm-oauth:
     $ref: './paths/auth.yaml#/auth/confirm-oauth'
+=======
+    $ref: './paths/auth.yaml#/register'
+  /auth/login:
+    $ref: './paths/auth.yaml#/login'
+  /auth/logout:
+    $ref: './paths/auth.yaml#/logout'
+  /auth/current:
+    $ref: './paths/auth.yaml#/current'
+>>>>>>> Added swagger docs and openapi specs
 
   # USERS
   /users/current:
@@ -78,6 +88,7 @@ components:
 
   parameters:
     PageParam:
+<<<<<<< HEAD
       name: page
       in: query
       description: Page number for pagination
@@ -102,3 +113,10 @@ components:
       required: false
       schema:
         type: string
+=======
+      $ref: './components/parameters/PageParam.yaml'
+    LimitParam:
+      $ref: './components/parameters/LimitParam.yaml'
+    SearchParam:
+      $ref: './components/parameters/SearchParam.yaml'
+>>>>>>> Added swagger docs and openapi specs

@@ -8,6 +8,7 @@
       content:
         application/json:
           schema:
+<<<<<<< HEAD
             $ref: '../components/schemas.yaml#/UserRegister'
     responses:
       '201':
@@ -16,6 +17,20 @@
         $ref: '../components/responses.yaml#/400'
       '500':
         $ref: '../components/responses.yaml#/500'
+=======
+            $ref: '../components/schemas/user.yaml#/UserRegister'
+    responses:
+      '201':
+        description: User registered successfully
+        content:
+          application/json:
+            schema:
+              $ref: '../components/schemas/user.yaml#/UserResponse'
+      '400':
+        $ref: '../components/responses/400.yaml'
+      '500':
+        $ref: '../components/responses/500.yaml'
+>>>>>>> Added swagger docs and openapi specs
 
 /auth/login:
   post:
@@ -27,6 +42,7 @@
       content:
         application/json:
           schema:
+<<<<<<< HEAD
             $ref: '../components/schemas.yaml#/UserLogin'
     responses:
       '200':
@@ -35,6 +51,20 @@
         $ref: '../components/responses.yaml#/401'
       '500':
         $ref: '../components/responses.yaml#/500'
+=======
+            $ref: '../components/schemas/user.yaml#/UserLogin'
+    responses:
+      '200':
+        description: Login successful
+        content:
+          application/json:
+            schema:
+              $ref: '../components/schemas/user.yaml#/LoginResponse'
+      '401':
+        $ref: '../components/responses/401.yaml'
+      '500':
+        $ref: '../components/responses/500.yaml'
+>>>>>>> Added swagger docs and openapi specs
 
 /auth/logout:
   post:
@@ -45,9 +75,15 @@
       - bearerAuth: []
     responses:
       '204':
+<<<<<<< HEAD
         description: Logout successful
       '401':
         $ref: '../components/responses.yaml#/401'
+=======
+        description: Logout successful (No Content)
+      '401':
+        $ref: '../components/responses/401.yaml'
+>>>>>>> Added swagger docs and openapi specs
 
 /auth/current:
   get:
@@ -62,9 +98,15 @@
         content:
           application/json:
             schema:
+<<<<<<< HEAD
               $ref: '../components/schemas.yaml#/User'
       '401':
         $ref: '../components/responses.yaml#/401'
+=======
+              $ref: '../components/schemas/user.yaml#/User'
+      '401':
+        $ref: '../components/responses/401.yaml'
+>>>>>>> Added swagger docs and openapi specs
 
 /auth/google-oauth-url:
   get:
@@ -90,7 +132,11 @@
                   properties:
                     oauth_url:
                       type: string
+<<<<<<< HEAD
                       example: "https://accounts.google.com/o/oauth2/auth?client_id=..."
+=======
+                      example: 'https://accounts.google.com/o/oauth2/auth?client_id=...'
+>>>>>>> Added swagger docs and openapi specs
 
 /auth/confirm-oauth:
   post:
@@ -103,11 +149,20 @@
         application/json:
           schema:
             type: object
+<<<<<<< HEAD
+=======
+            required:
+              - code
+>>>>>>> Added swagger docs and openapi specs
             properties:
               code:
                 type: string
                 description: Authorization code from Google
+<<<<<<< HEAD
                 example: "4/0AY0e-g6X4ABCxyz..."
+=======
+                example: '4/0AY0e-g6X4ABCxyz...'
+>>>>>>> Added swagger docs and openapi specs
     responses:
       '200':
         description: Successfully logged in with Google
@@ -127,8 +182,24 @@
                   properties:
                     accessToken:
                       type: string
+<<<<<<< HEAD
                       example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
       '400':
         description: Invalid or missing authorization code
       '500':
         description: Internal server error
+=======
+                      example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'
+      '400':
+        description: Invalid or missing authorization code
+        content:
+          application/json:
+            schema:
+              $ref: '../components/responses/400.yaml'
+      '500':
+        description: Internal server error
+        content:
+          application/json:
+            schema:
+              $ref: '../components/responses/500.yaml'
+>>>>>>> Added swagger docs and openapi specs

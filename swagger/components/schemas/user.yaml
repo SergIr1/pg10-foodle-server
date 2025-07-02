@@ -7,12 +7,16 @@ UserRegister:
   properties:
     name:
       type: string
+
+      example: 'Test User'
     email:
       type: string
       format: email
+      example: 'test@example.com'
     password:
       type: string
       minLength: 6
+      example: 'secret123'
 
 UserLogin:
   type: object
@@ -23,17 +27,35 @@ UserLogin:
     email:
       type: string
       format: email
+
+      example: 'test@example.com'
     password:
       type: string
-      minLength: 6
+      example: 'secret123'
 
 User:
   type: object
+  required:
+    - id
+    - name
+    - email
   properties:
     id:
       type: string
+      example: '64ac5c439bdf4a001c7a9c12'
     name:
       type: string
+      example: 'Test User'
     email:
       type: string
       format: email
+      example: 'test@example.com'
+    avatarURL:
+      type: string
+      format: uri
+      nullable: true
+      example: 'https://res.cloudinary.com/demo/avatar.jpg'
+    token:
+      type: string
+      nullable: true
+      example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'
