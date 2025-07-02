@@ -1,4 +1,4 @@
-description: Unauthorized. The request requires user authentication.
+description: Not Found. The requested resource does not exist.
 content:
   application/json:
     schema:
@@ -6,4 +6,4 @@ content:
       properties:
         message:
           type: string
-          example: Unauthorized
+          example: Not found
