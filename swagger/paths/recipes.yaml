@@ -1,0 +1,149 @@
+/recipes:
+  get:
+    tags:
+      - Recipes
+    summary: Get list of recipes with optional filters and pagination
+    parameters:
+      - $ref: '#/components/parameters/PageParam'
+      - $ref: '#/components/parameters/LimitParam'
+      - $ref: '#/components/parameters/SearchParam'
+      - name: category
+        in: query
+        description: Filter by category
+        required: false
+        schema:
+          type: string
+      - name: area
+        in: query
+        description: Filter by area
+        required: false
+        schema:
+          type: string
+    responses:
+      '200':
+        description: List of recipes
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                total:
+                  type: integer
+                page:
+                  type: integer
+                limit:
+                  type: integer
+                recipes:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Recipe'
+      '500':
+        $ref: '#/components/responses/500'
+
+  post:
+    tags:
+      - Recipes
+    summary: Create a new recipe
+    security:
+      - bearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Recipe'
+    responses:
+      '201':
+        description: Recipe created successfully
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Recipe'
+      '400':
+        $ref: '#/components/responses/400'
+      '401':
+        $ref: '#/components/responses/401'
+      '500':
+        $ref: '#/components/responses/500'
+
+/recipes/{id}:
+  get:
+    tags:
+      - Recipes
+    summary: Get recipe by ID
+    parameters:
+      - name: id
+        in: path
+        description: Recipe ID
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        description: Recipe details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Recipe'
+      '404':
+        $ref: '#/components/responses/404'
+      '500':
+        $ref: '#/components/responses/500'
+
+  patch:
+    tags:
+      - Recipes
+    summary: Update recipe by ID
+    security:
+      - bearerAuth: []
+    parameters:
+      - name: id
+        in: path
+        description: Recipe ID
+        required: true
+        schema:
+          type: string
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Recipe'
+    responses:
+      '200':
+        description: Recipe updated successfully
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Recipe'
+      '400':
+        $ref: '#/components/responses/400'
+      '401':
+        $ref: '#/components/responses/401'
+      '404':
+        $ref: '#/components/responses/404'
+      '500':
+        $ref: '#/components/responses/500'
+
+  delete:
+    tags:
+      - Recipes
+    summary: Delete recipe by ID
+    security:
+      - bearerAuth: []
+    parameters:
+      - name: id
+        in: path
+        description: Recipe ID
+        required: true
+        schema:
+          type: string
+    responses:
+      '204':
+        description: Recipe deleted successfully (no content)
+      '401':
+        $ref: '#/components/responses/401'
+      '404':
+        $ref: '#/components/responses/404'
+      '500':
+        $ref: '#/components/responses/500'

@@ -1,0 +1,83 @@
+/favorites:
+  get:
+    tags:
+      - Favorites
+    summary: Get user's favorite recipes
+    security:
+      - bearerAuth: []
+    parameters:
+      - $ref: '#/components/parameters/PageParam'
+      - $ref: '#/components/parameters/LimitParam'
+    responses:
+      '200':
+        description: List of favorite recipes
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                total:
+                  type: integer
+                page:
+                  type: integer
+                limit:
+                  type: integer
+                favorites:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Recipe'
+      '401':
+        $ref: '#/components/responses/401'
+      '500':
+        $ref: '#/components/responses/500'
+
+  post:
+    tags:
+      - Favorites
+    summary: Add a recipe to favorites
+    security:
+      - bearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - recipeId
+            properties:
+              recipeId:
+                type: string
+    responses:
+      '201':
+        description: Recipe added to favorites successfully
+      '400':
+        $ref: '#/components/responses/400'
+      '401':
+        $ref: '#/components/responses/401'
+      '500':
+        $ref: '#/components/responses/500'
+
+/favorites/{id}:
+  delete:
+    tags:
+      - Favorites
+    summary: Remove a recipe from favorites by favorite ID
+    security:
+      - bearerAuth: []
+    parameters:
+      - name: id
+        in: path
+        description: Favorite entry ID
+        required: true
+        schema:
+          type: string
+    responses:
+      '204':
+        description: Recipe removed from favorites successfully (no content)
+      '401':
+        $ref: '#/components/responses/401'
+      '404':
+        $ref: '#/components/responses/404'
+      '500':
+        $ref: '#/components/responses/500'
