@@ -1,0 +1,33 @@
+type: object
+required:
+  - title
+  - description
+  - time
+  - category
+  - instructions
+  - ingredients
+properties:
+  title:
+    type: string
+    maxLength: 64
+  description:
+    type: string
+    maxLength: 200
+  time:
+    type: string
+  area:
+    type: string
+    maxLength: 64
+  category:
+    type: string
+  instructions:
+    type: string
+    maxLength: 1200
+  ingredients:
+    type: array
+    minItems: 1
+    items:
+      $ref: '../schemas/recipeIngredient.yaml'
+  thumb:
+    type: string
+    format: binary

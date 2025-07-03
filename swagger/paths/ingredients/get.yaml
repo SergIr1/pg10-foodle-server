@@ -1,0 +1,35 @@
+tags:
+  - Ingredients
+summary: Get all ingredients
+operationId: getAllIngredients
+description: Returns a list of all available ingredients
+responses:
+  '200':
+    description: A list of ingredients
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            ingredients:
+              type: array
+              items:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                    example: '60d21b4967d0d8992e610c88'
+                  name:
+                    type: string
+                    example: 'Tomato'
+                  desc:
+                    type: string
+                    example: 'A red juicy fruit often used as a vegetable.'
+                  img:
+                    type: string
+                    format: uri
+                    example: 'https://example.com/images/tomato.png'
+  '400':
+    $ref: '../../components/responses/400.yaml'
+  '500':
+    $ref: '../../components/responses/500.yaml'

@@ -8,11 +8,11 @@ const ingredientSchema = new Schema(
       unique: true,
       trim: true,
     },
-    description: {
+    desc: {
       type: String,
       trim: true,
     },
-    image: {
+    img: {
       type: String,
       default: null,
     },

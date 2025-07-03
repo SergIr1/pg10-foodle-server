@@ -1,1 +1,46 @@
-# here?
+type: object
+required: [_id, name, email, createdAt, updateAt]
+properties:
+  _id:
+    type: string
+    format: objectId
+    example: 60d0fe4f5311236168a109ca
+  name:
+    type: string
+    minLength: 2
+    maxLength: 16
+  email:
+    type: string
+    format: email
+    maxLength: 128
+  avatar:
+    oneOf:
+      - type: string
+        format: uri
+      - type: 'null'
+    example: 'https://example.com/avatar.jpg'
+  followers:
+    type: array
+    items:
+      type: string
+      format: objectId
+  following:
+    type: array
+    items:
+      type: string
+      format: objectId
+  favorites:
+    type: array
+    items:
+      type: string
+      format: objectId
+  createdAt:
+    type: string
+    format: date-time
+    description: User created at
+    example: 2025-06-20T14:51:07.199+00:00
+  updatedAt:
+    type: string
+    format: date-time
+    description: 'Contact updated at'
+    example: 2025-06-21T14:51:07.199+00:00

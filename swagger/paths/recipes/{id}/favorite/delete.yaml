@@ -1,0 +1,22 @@
+tags:
+  - Recipes
+summary: Remove recipe from favorites
+operationId: removeRecipeFromFavorites
+description: Unmark a recipe as favorite for the current user
+security:
+  - bearerAuth: []
+parameters:
+  - in: path
+    name: id
+    required: true
+    schema:
+      type: string
+responses:
+  '200':
+    description: Recipe removed from favorites
+  '401':
+    $ref: '../../../../components/responses/401.yaml'
+  '404':
+    description: Recipe not found
+  '500':
+    $ref: '../../../../components/responses/500.yaml'
