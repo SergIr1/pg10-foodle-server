@@ -6,12 +6,6 @@ description: Add a recipe to the user's list of favorite recipes
 security:
   - bearerAuth: []
 parameters:
-  # - in: path
-  #   name: userId
-  #   required: true
-  #   schema:
-  #     type: string
-  #     example: 64c8d958249fae54bae90bb8
   - in: path
     name: recipeId
     required: true

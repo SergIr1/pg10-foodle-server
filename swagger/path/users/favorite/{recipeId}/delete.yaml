@@ -6,12 +6,6 @@ description: Delete recipe from users favorites list
 security:
   - bearerAuth: []
 parameters:
-  # - in: path
-  #   name: userId
-  #   required: true
-  #   schema:
-  #     type: string
-  #     example: '64c8d958249fae54bae90bb9'
   - in: path
     name: recipeId
     required: true

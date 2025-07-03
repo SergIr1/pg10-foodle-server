@@ -3,13 +3,6 @@ tags:
 summary: Get list of all user's favorite recipes
 operationId: getUserFavorites
 description: Retrieves all favorite recipes of the authenticated user.
-# parameters:
-#   - in: path
-#     name: userId
-#     required: true
-#     schema:
-#       type: string
-#       example: '64c8d958249fae54bae90bb9'
 security:
   - bearerAuth: []
 responses:

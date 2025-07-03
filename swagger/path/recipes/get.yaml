@@ -78,40 +78,40 @@ responses:
                 _id:
                   type: string
                   description: Recipe id
-                  example: 507f1f77bcf86cd799439011
+                  example: 6462a8f74c3d0ddd28897ff4
                 title:
                   type: string
                   description: Recipe title
-                  example: Callaloo Jamaican Style
+                  example: Thai Green Curry
                 category:
                   type: string
                   description: Recipe category
-                  example: Soup
+                  example: Chicken
                 owner:
                   type: string
                   description: Recipe owner
-                  example: 6592008029c8c3e4dc76256c
+                  example: 64c8d958249fae54bae90bb9
                 area:
                   type: string
                   description: Recipe area
-                  example: British
+                  example: Thai
                 instructions:
                   type: string
                   description: Recipe instructions
-                  example: Heat oven to 160C/fan 140C/gas 3. Heat some dripping or butter in a large shallow casserole dish, brown the lamb in batches...
+                  example: Put the potatoes in a pan of boiling water and cook for 5 minutes...
                 description:
                   type: string
                   description: Recipe description
-                  example: A British dessert consisting of a shortcrust pastry shell filled with raspberry jam, frangipane, and topped with almonds.
+                  example: A fragrant Thai dish made with coconut milk, green curry paste, and a...
                 thumb:
                   type: string
                   format: url
                   description: Recipe photo url
-                  example: https://res.cloudinary.com/dvda8nxai/image/upload/v1749381064/b7hiztxuoqgaauryqleh.jpg
+                  example: https://ftp.goit.study/img/so-yummy/preview/Thai%20Green%20Curry.jpg
                 time:
                   type: string
                   description: Cooking time in minutes
-                  example: 45
+                  example: 40
                 ingredients:
                   type: array
                   items:
@@ -119,10 +119,10 @@ responses:
                     properties:
                       id:
                         type: string
-                        example: 640c2dd963a319ea671e3687
+                        example: 640c2dd963a319ea671e3746
                       measure:
                         type: string
-                        example: '2 cups'
+                        example: '225g new'
                 createdAt:
                   type: string
                   format: date-time

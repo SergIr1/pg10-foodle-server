@@ -3,13 +3,6 @@ tags:
 summary: Get list of user's own recipes
 operationId: getUserOwnRecipes
 description: Retrieves own recipes.
-# parameters:
-#   - in: path
-#     name: userId
-#     required: true
-#     schema:
-#       type: string
-#       example: '64c8d958249fae54bae90bb9'
 security:
   - bearerAuth: []
 responses:

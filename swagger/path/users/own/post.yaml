@@ -5,13 +5,6 @@ operationId: addNewRecipe
 description: Add new recipe
 security:
   - bearerAuth: []
-# parameters:
-#   - in: path
-#     name: userId
-#     required: true
-#     schema:
-#       type: string
-#       example: 64c8d958249fae54bae90bb8
 responses:
   '200':
     description: Successfully added new recipe
