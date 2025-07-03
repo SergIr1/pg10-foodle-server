@@ -1,0 +1,94 @@
+openapi: 3.1.0
+info:
+  version: 1.0.0
+  title: Tasteorama API
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  description: API documentation for Tasteorama backend
+tags:
+  - name: Auth
+    description: Authentication and authorization endpoints
+  - name: Users
+    description: Operations with users
+  - name: Categories
+    description: Recipe categories
+  - name: Ingredients
+    description: Recipe ingredients
+  - name: Recipes
+    description: All about recipes
+servers:
+  - url: http://127.0.0.1:3000
+  # - url: #посилання на задеплоєний сайт
+paths:
+  /api/auth/register:
+    post:
+      $ref: ../swagger/paths/auth/register.yaml
+  /api/auth/login:
+    post:
+      $ref: ../swagger/paths/auth/login.yaml
+  /api/auth/logout:
+    post:
+      $ref: ../swagger/paths/auth/logout.yaml
+  /api/auth/refresh:
+    post:
+      $ref: ../swagger/paths/auth/refresh.yaml
+  /api/auth/google-oauth-url:
+    get:
+      $ref: ../swagger/paths/auth/google-oauth-url.yaml
+  /api/auth/confirm-oauth:
+    post:
+      $ref: ../swagger/paths/auth/confirm-oauth.yaml
+
+  /api/users:
+    get:
+      $ref: ../swagger/paths/users/get.yaml
+  /api/users/current:
+    get:
+      $ref: ../swagger/paths/users/getCurrent.yaml
+  /api/users/{id}:
+    get:
+      $ref: ../swagger/paths/users/{id}/get.yaml
+
+  /api/categories:
+    get:
+      $ref: ../swagger/paths/categories/get.yaml
+
+  /api/ingredients:
+    get:
+      $ref: ../swagger/paths/ingredients/get.yaml
+
+  /api/recipes:
+    get:
+      $ref: ../swagger/paths/recipes/get.yaml
+    post:
+      $ref: ../swagger/paths/recipes/post.yaml
+
+  /api/recipes/favorite:
+    get:
+      $ref: ../swagger/paths/recipes/favorite/get.yaml
+
+  /api/recipes/own:
+    get:
+      $ref: ../swagger/paths/recipes/own/get.yaml
+
+  /api/recipes/{id}:
+    get:
+      $ref: ../swagger/paths/recipes/{id}/get.yaml
+    delete:
+      $ref: ../swagger/paths/recipes/{id}/delete.yaml # додаткове завдання
+
+  /api/recipes/{id}/favorite:
+    post:
+      $ref: ../swagger/paths/recipes/{id}/favorite/post.yaml
+    delete:
+      $ref: ../swagger/paths/recipes/{id}/favorite/delete.yaml
+
+# тут будуть посилання на ендпоінти
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+security:
+  - bearerAuth: []

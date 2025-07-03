@@ -1,0 +1,20 @@
+tags:
+  - Auth
+summary: Refresh access token
+operationId: refreshToken
+description: Refresh a valid access token using a refresh token
+responses:
+  '200':
+    description: Token refreshed successfully
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            token:
+              type: string
+              example: 'NEW_JWT_TOKEN'
+  '401':
+    $ref: '../../components/responses/401.yaml'
+  '500':
+    $ref: '../../components/responses/500.yaml'

@@ -1,0 +1,164 @@
+tags:
+  - Recipes
+summary: Create a new recipe
+operationId: createRecipe
+description: Create and return a new recipe
+security:
+  - bearerAuth: []
+requestBody:
+  required: true
+  content:
+    multipart/form-data:
+      schema:
+        type: object
+        required:
+          - title
+          - description
+          - time
+          - category
+          - instructions
+          - ingredients
+        properties:
+          title:
+            type: string
+            maxLength: 64
+            example: 'Spaghetti Bolognese'
+          description:
+            type: string
+            maxLength: 200
+            example: 'Classic Italian pasta with meat sauce'
+          time:
+            type: string
+            example: '30 minutes'
+          area:
+            type: string
+            maxLength: 64
+            example: 'Italian'
+          category:
+            type: string
+            example: 'Dinner'
+          instructions:
+            type: string
+            maxLength: 1200
+            example: 'Boil pasta. Cook meat with sauce. Mix together and serve.'
+          ingredients:
+            type: array
+            minItems: 1
+            items:
+              type: object
+              required:
+                - id
+                - measure
+              properties:
+                id:
+                  type: string
+                  format: objectId
+                  example: '60d0fe4f5311236168a109ca'
+                measure:
+                  type: string
+                  minLength: 2
+                  maxLength: 16
+                  example: '200g'
+          thumb:
+            type: string
+            format: binary
+responses:
+  '201':
+    description: Recipe created
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - _id
+            - title
+            - description
+            - time
+            - category
+            - instructions
+            - ingredients
+            - owner
+            - createdAt
+            - updatedAt
+          properties:
+            _id:
+              type: string
+              format: objectId
+              example: '60d0fe4f5311236168a109ca'
+            title:
+              type: string
+              maxLength: 64
+              example: 'Spaghetti Bolognese'
+            description:
+              type: string
+              maxLength: 200
+              example: 'Classic Italian pasta with meat sauce'
+            time:
+              type: string
+              example: '30 minutes'
+            area:
+              type: string
+              example: 'Italian'
+            category:
+              type: string
+              example: 'Dinner'
+            instructions:
+              type: string
+              maxLength: 1200
+              example: 'Boil pasta. Cook meat with sauce. Mix together and serve.'
+            ingredients:
+              type: array
+              items:
+                type: object
+                required:
+                  - id
+                  - measure
+                properties:
+                  id:
+                    type: string
+                    format: objectId
+                    example: '60d0fe4f5311236168a109cb'
+                  measure:
+                    type: string
+                    example: '200g'
+            owner:
+              type: string
+              format: objectId
+              example: '60d0fe4f5311236168a109ca'
+            thumb:
+              type: string
+              format: binary
+            photo:
+              type: string
+              format: uri
+              example: https://example.com/images/spaghetti.jpg
+            createdAt:
+              type: string
+              format: date-time
+              example: '2025-06-20T14:51:07.199+00:00'
+              description: Recipe created at
+            updatedAt:
+              type: string
+              format: date-time
+              example: '2025-06-21T14:51:07.199+00:00'
+              description: Recipe last updated at
+  '400':
+    description: Bad Request
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+          properties:
+            status:
+              type: integer
+              example: 400
+            message:
+              type: string
+              example: 'Validation failed'
+  '401':
+    $ref: '../../components/responses/401.yaml'
+  '500':
+    $ref: '../../components/responses/500.yaml'

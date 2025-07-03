@@ -1,0 +1,22 @@
+tags:
+  - Recipes
+summary: Get recipe by ID
+operationId: getRecipeById
+description: Returns a recipe by its unique ID
+parameters:
+  - in: path
+    name: id
+    required: true
+    schema:
+      type: string
+responses:
+  '200':
+    description: Recipe found
+    content:
+      application/json:
+        schema:
+          $ref: '../../../components/schemas/recipe.yaml'
+  '404':
+    description: Recipe not found
+  '500':
+    $ref: '../../../components/responses/500.yaml'

@@ -1,0 +1,23 @@
+type: object
+required: [_id, name, desc, img]
+properties:
+  _id:
+    type: string
+    format: objectId
+  name:
+    type: string
+  desc:
+    type: string
+  img:
+    type: string
+    format: uri
+  createdAt:
+    type: string
+    format: date-time
+    description: Ingredient created at
+    example: 2025-06-20T14:51:07.199+00:00
+  updatedAt:
+    type: string
+    format: date-time
+    description: 'Ingredient last updated at'
+    example: 2025-06-21T14:51:07.199+00:00

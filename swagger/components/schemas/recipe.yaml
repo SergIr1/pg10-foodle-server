@@ -1,0 +1,53 @@
+type: object
+required:
+  - _id
+  - title
+  - description
+  - time
+  - category
+  - instructions
+  - ingredients
+  - owner
+properties:
+  _id:
+    type: string
+    format: objectId
+  title:
+    type: string
+    maxLength: 64
+  description:
+    type: string
+    maxLength: 200
+  time:
+    type: string
+  area:
+    type: string
+  category:
+    type: string
+  instructions:
+    type: string
+    maxLength: 1200
+  ingredients:
+    type: array
+    items:
+      $ref: ../../../swagger/components/schemas/recipeIngredient.yaml
+  owner:
+    type: string
+    format: objectId
+  thumb:
+    type: string
+    format: binary
+  photo:
+    type: string
+    format: uri
+    example: https://example.com/image.jpg
+  createdAt:
+    type: string
+    format: date-time
+    description: Recipe created at
+    example: 2025-06-20T14:51:07.199+00:00
+  updatedAt:
+    type: string
+    format: date-time
+    description: Recipe last updated at
+    example: 2025-06-21T14:51:07.199+00:00
