@@ -1,1 +1,38 @@
-# here?
+type: object
+required:
+  - _id
+  - name
+  - email
+  - favorites
+  - own
+properties:
+  _id:
+    type: string
+    description: User id
+    example: 64c8d958249fae54bae90bb7
+  name:
+    type: string
+    description: User's name
+    example: Larry Pageim
+  email:
+    type: string
+    description: User's email address
+    example: larry@gmail.com
+  favorites:
+    type: array
+    description: List of recipes IDs added to favorites
+    items:
+      type: string
+      example: 6462a8f74c3d0ddd28898017
+  own:
+    type: array
+    description: List of recipes IDs created by user
+    items:
+      type: string
+      example: 6462a8f74c3d0ddd28898017
+  createdAt:
+    type: string
+    format: date-time
+  updatedAt:
+    type: string
+    format: date-time

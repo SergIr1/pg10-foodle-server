@@ -1,0 +1,22 @@
+type: object
+required:
+  - name
+  - email
+  - password
+properties:
+  name:
+    type: string
+    maxLength: 16
+    description: User name
+    example: Larry Pageim
+  email:
+    type: string
+    maxLength: 128
+    description: User email address
+    example: larry@mail.com
+  password:
+    type: string
+    minLength: 8
+    maxLength: 128
+    description: User password
+    example: 12345678

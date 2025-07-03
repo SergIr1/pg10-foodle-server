@@ -1,0 +1,76 @@
+openapi: 3.1.0
+info:
+  version: 1.0.0
+  title: Tasteorama api-docs
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  description: Documentation of Testeorama foodle server.
+tags:
+  - name: Testeorama foodle server
+    description: Operations about recipes.
+  - name: Auth
+    description: Auth operations.
+servers:
+  - url: https://pg10-foodle-server.onrender.com
+paths:
+  /api/auth/register:
+    post:
+      $ref: '../swagger/path/auth/register.yaml'
+  /api/auth/login:
+    post:
+      $ref: ../swagger/path/auth/login.yaml
+  /api/auth/logout:
+    post:
+      $ref: ../swagger/path/auth/logout.yaml
+  /api/auth/refresh:
+    post:
+      $ref: ../swagger/path/auth/refresh.yaml
+
+  /api/users/current:
+    get:
+      $ref: ../swagger/path/users/get.yaml
+  /api/users/favorites:
+    get:
+      $ref: ../swagger/path/users/favorite/get.yaml
+  /api/users/favorites/{recipeId}:
+    post:
+      $ref: ../swagger/path/users/favorite/{recipeId}/post.yaml
+    delete:
+      $ref: ../swagger/path/users/favorite/{recipeId}/delete.yaml
+
+  /api/users/own:
+    get:
+      $ref: ../swagger/path/users/own/get.yaml
+    post:
+      $ref: ../swagger/path/users/own/post.yaml
+  /api/users/own/{recipeId}:
+    delete:
+      $ref: ../swagger/path/users/own/{recipeId}/delete.yaml
+
+  /api/recipes:
+    get:
+      $ref: ../swagger/path/recipes/get.yaml
+    post:
+      $ref: ../swagger/path/recipes/post.yaml
+  /api/recipes/{recipeId}:
+    get:
+      $ref: ../swagger/path/recipes/{id}/get.yaml
+    patch:
+      $ref: ../swagger/path/recipes/{id}/patch.yaml
+    delete:
+      $ref: ../swagger/path/recipes/{id}/delete.yaml
+
+  /api/categories:
+    get:
+      $ref: ../swagger/path/categories/get.yaml
+
+  /api/ingredients:
+    get:
+      $ref: ../swagger/path/ingredients/get.yaml
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

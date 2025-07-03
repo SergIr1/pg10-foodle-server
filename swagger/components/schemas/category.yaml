@@ -1,0 +1,13 @@
+type: object
+required:
+  - _id
+  - name
+properties:
+  _id:
+    type: string
+    description: Categorie Id
+    example: '6462a6cd4c3d0ddd28897f94'
+  name:
+    type: string
+    description: Name af the category
+    example: 'Pasta'
