@@ -401,6 +401,107 @@
         }
       }
     },
+    "/api/categories": {
+      "get": {
+        "tags": [
+          "Categories"
+        ],
+        "summary": "Get all recipe categories",
+        "operationId": "getCategories",
+        "description": "Get list of all available categories for recipe",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Seccessfully fetched list of all recipe categories",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully found all categories!"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/category"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/api/ingredients": {
+      "get": {
+        "tags": [
+          "Ingredients"
+        ],
+        "summary": "Get list of ingredients",
+        "operationId": "getIngredients",
+        "description": "Get list of all available ingredients",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Seccessfully fetched list of ingredients",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Seccessfully fetched list of ingredients!"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/ingredient"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
     "/api/recipes/favorites": {
       "get": {
         "tags": [
@@ -1233,107 +1334,6 @@
           }
         }
       }
-    },
-    "/api/categories": {
-      "get": {
-        "tags": [
-          "Categories"
-        ],
-        "summary": "Get all recipe categories",
-        "operationId": "getCategories",
-        "description": "Get list of all available categories for recipe",
-        "security": [],
-        "responses": {
-          "200": {
-            "description": "Seccessfully fetched list of all recipe categories",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "status",
-                    "message",
-                    "data"
-                  ],
-                  "properties": {
-                    "status": {
-                      "type": "integer",
-                      "example": 200
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Successfully found all categories!"
-                    },
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/category"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "$ref": "#/components/responses/400"
-          },
-          "404": {
-            "$ref": "#/components/responses/404"
-          },
-          "500": {
-            "$ref": "#/components/responses/500"
-          }
-        }
-      }
-    },
-    "/api/ingredients": {
-      "get": {
-        "tags": [
-          "Ingredients"
-        ],
-        "summary": "Get list of ingredients",
-        "operationId": "getIngredients",
-        "description": "Get list of all available ingredients",
-        "security": [],
-        "responses": {
-          "200": {
-            "description": "Seccessfully fetched list of ingredients",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "integer",
-                      "example": 200
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Seccessfully fetched list of ingredients!"
-                    },
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/ingredient"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "$ref": "#/components/responses/400"
-          },
-          "404": {
-            "$ref": "#/components/responses/404"
-          },
-          "500": {
-            "$ref": "#/components/responses/500"
-          }
-        }
-      }
     }
   },
   "components": {
@@ -1448,6 +1448,69 @@
           }
         }
       },
+      "category": {
+        "type": "object",
+        "required": [
+          "_id",
+          "name"
+        ],
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Categorie Id",
+            "example": "6462a6cd4c3d0ddd28897f94"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name af the category",
+            "example": "Pasta"
+          }
+        }
+      },
+      "ingredient": {
+        "type": "object",
+        "required": [
+          "_id",
+          "name",
+          "desc",
+          "img"
+        ],
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Ingredient Id",
+            "example": "640c2dd963a319ea671e37c2"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the ingredient",
+            "example": "Minced Beef"
+          },
+          "desc": {
+            "type": "string",
+            "description": "Description of the ingredient",
+            "example": "Ground beef, commonly used for making burgers, meatballs, and meat sauces"
+          },
+          "img": {
+            "type": "string",
+            "format": "url",
+            "description": "Photo of the ingredient",
+            "example": "https://ftp.goit.study/img/so-yummy/ingredients/640c2dd963a319ea671e37c2.png"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Ingredient created at",
+            "example": "2025-06-20T14:51:07.199+00:00"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Ingredient last updated at",
+            "example": "2025-06-21T14:51:07.199+00:00"
+          }
+        }
+      },
       "recipe": {
         "type": "object",
         "required": [
@@ -1524,69 +1587,6 @@
                 }
               }
             }
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Ingredient created at",
-            "example": "2025-06-20T14:51:07.199+00:00"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Ingredient last updated at",
-            "example": "2025-06-21T14:51:07.199+00:00"
-          }
-        }
-      },
-      "category": {
-        "type": "object",
-        "required": [
-          "_id",
-          "name"
-        ],
-        "properties": {
-          "_id": {
-            "type": "string",
-            "description": "Categorie Id",
-            "example": "6462a6cd4c3d0ddd28897f94"
-          },
-          "name": {
-            "type": "string",
-            "description": "Name af the category",
-            "example": "Pasta"
-          }
-        }
-      },
-      "ingredient": {
-        "type": "object",
-        "required": [
-          "_id",
-          "name",
-          "desc",
-          "img"
-        ],
-        "properties": {
-          "_id": {
-            "type": "string",
-            "description": "Ingredient Id",
-            "example": "640c2dd963a319ea671e37c2"
-          },
-          "name": {
-            "type": "string",
-            "description": "Name of the ingredient",
-            "example": "Minced Beef"
-          },
-          "desc": {
-            "type": "string",
-            "description": "Description of the ingredient",
-            "example": "Ground beef, commonly used for making burgers, meatballs, and meat sauces"
-          },
-          "img": {
-            "type": "string",
-            "format": "url",
-            "description": "Photo of the ingredient",
-            "example": "https://ftp.goit.study/img/so-yummy/ingredients/640c2dd963a319ea671e37c2.png"
           },
           "createdAt": {
             "type": "string",

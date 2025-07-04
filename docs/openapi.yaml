@@ -35,6 +35,12 @@ paths:
   /api/users/current:
     get:
       $ref: ../swagger/path/users/get.yaml
+  /api/categories:
+    get:
+      $ref: ../swagger/path/categories/get.yaml
+  /api/ingredients:
+    get:
+      $ref: ../swagger/path/ingredients/get.yaml
   /api/recipes/favorites:
     get:
       $ref: ../swagger/path/recipes/favorite/get.yaml
@@ -59,12 +65,6 @@ paths:
       $ref: ../swagger/path/recipes/{id}/get.yaml
     delete:
       $ref: ../swagger/path/recipes/{id}/delete.yaml
-  /api/categories:
-    get:
-      $ref: ../swagger/path/categories/get.yaml
-  /api/ingredients:
-    get:
-      $ref: ../swagger/path/ingredients/get.yaml
 components:
   securitySchemes:
     bearerAuth:
