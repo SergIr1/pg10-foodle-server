@@ -30,23 +30,22 @@ paths:
   /api/users/current:
     get:
       $ref: ../swagger/path/users/get.yaml
-  /api/users/favorites:
+  /api/recipes/favorites:
     get:
-      $ref: ../swagger/path/users/favorite/get.yaml
-  /api/users/favorites/{recipeId}:
+      $ref: ../swagger/path/recipes/favorite/get.yaml
+  /api/recipes/{recipeId}/favorites:
     post:
-      $ref: ../swagger/path/users/favorite/{recipeId}/post.yaml
+      $ref: ../swagger/path/recipes/{id}/favorite/post.yaml
     delete:
-      $ref: ../swagger/path/users/favorite/{recipeId}/delete.yaml
+      $ref: ../swagger/path/recipes/{id}/favorite/delete.yaml
 
-  /api/users/own:
+  /api/recipes/own:
     get:
-      $ref: ../swagger/path/users/own/get.yaml
-    post:
-      $ref: ../swagger/path/users/own/post.yaml
-  /api/users/own/{recipeId}:
+      $ref: ../swagger/path/recipes/own/get.yaml
+
+  /api/recipes/{recipeId}/own:
     delete:
-      $ref: ../swagger/path/users/own/{recipeId}/delete.yaml
+      $ref: ../swagger/path/recipes/{id}/own/delete.yaml
 
   /api/recipes:
     get:
@@ -56,8 +55,6 @@ paths:
   /api/recipes/{recipeId}:
     get:
       $ref: ../swagger/path/recipes/{id}/get.yaml
-    patch:
-      $ref: ../swagger/path/recipes/{id}/patch.yaml
     delete:
       $ref: ../swagger/path/recipes/{id}/delete.yaml
 

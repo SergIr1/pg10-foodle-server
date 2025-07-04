@@ -1,4 +1,4 @@
-description: Create a recipe
+description: Recipe created
 content:
   application/json:
     schema:

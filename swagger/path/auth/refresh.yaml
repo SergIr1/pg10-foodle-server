@@ -3,8 +3,7 @@ tags:
 summary: Refresh access token
 operationId: refreshToken
 description: Refresh JWT access token
-security:
-  - bearerAuth: []
+security: []
 responses:
   '200':
     description: New access token returned

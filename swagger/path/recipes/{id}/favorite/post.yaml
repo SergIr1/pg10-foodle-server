@@ -1,0 +1,50 @@
+tags:
+  - Recipes
+summary: Add recipe to favorites
+operationId: addFavoriteRecipe
+description: Add a recipe to the user's list of favorite recipes
+security:
+  - bearerAuth: []
+parameters:
+  - in: path
+    name: recipeId
+    required: true
+    description: ID of the recipe to add to favorites
+    schema:
+      type: string
+      example: 65ca67e7ae7f10c88b598384
+responses:
+  '200':
+    description: Successfully processed the request
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+
+        examples:
+          AddedToFavorites:
+            summary: Recipe added to favorites
+            value:
+              message: Recipe added to favorites
+          AlreadyInFavorites:
+            summary: Recipe is already in favorites
+            value:
+              message: Recipe is already in favorites
+
+  '401':
+    $ref: ../../../../components/responses/401.yaml
+  '404':
+    description: Recipe not found
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: Recipe not found
+  '500':
+    $ref: ../../../../components/responses/500.yaml
