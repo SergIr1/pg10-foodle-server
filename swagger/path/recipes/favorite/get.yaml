@@ -1,5 +1,5 @@
 tags:
-  - Users
+  - Recipes
 summary: Get list of all user's favorite recipes
 operationId: getUserFavorites
 description: Retrieves all favorite recipes of the authenticated user.
