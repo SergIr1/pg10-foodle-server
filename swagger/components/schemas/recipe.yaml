@@ -1,0 +1,71 @@
+type: object
+required:
+  - _id
+  - title
+  - category
+  - owner
+  - instructions
+  - description
+  - time
+  - ingredients
+  - createdAt
+  - updatedAt
+properties:
+  _id:
+    type: string
+    description: Recipe id
+    example: 6462a8f74c3d0ddd2889806d
+  title:
+    type: string
+    description: Recipe title
+    example: Rogaliki (Polish Croissant Cookies)
+  category:
+    type: string
+    description: Recipe category
+    example: Dessert
+  owner:
+    type: string
+    description: Recipe owner's Id
+    example: 64c8d958249fae54bae90bb9
+  area:
+    type: string
+    description: Recipe origin area
+    example: Polish
+  instructions:
+    type: string
+    description: Recipe instructions
+    example: In a medium bowl mix egg yolks, philly cheese and baking powder using...
+  description:
+    type: string
+    description: Recipe description
+    example: A popular Polish pastry, Rogaliki are crescent-shaped cookies made fro...
+  thumb:
+    type: string
+    format: url
+    description: Recipe photo url
+    example: https://ftp.goit.study/img/so-yummy/preview/Rogaliki%20_Polish%20Croissant%20Cookies_.jpg
+  time:
+    type: string
+    description: Cooking time in minutes
+    example: 35
+  ingredients:
+    type: array
+    items:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 640c2dd963a319ea671e367e
+        measure:
+          type: string
+          example: '1 cups'
+  createdAt:
+    type: string
+    format: date-time
+    description: Ingredient created at
+    example: 2025-06-20T14:51:07.199+00:00
+  updatedAt:
+    type: string
+    format: date-time
+    description: 'Ingredient last updated at'
+    example: 2025-06-21T14:51:07.199+00:00

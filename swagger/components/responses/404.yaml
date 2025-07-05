@@ -1,4 +1,4 @@
-description: Unauthorized error
+description: NotFoundError
 content:
   application/json:
     schema:
@@ -6,19 +6,19 @@ content:
       required:
         - status
         - message
-        - data
+        - error
       properties:
         status:
           type: integer
-          example: 401
+          example: 404
         message:
           type: string
-          example: UnauthorizedError
-        data:
+          example: NotFoundError
+        error:
           type: object
           required:
             - message
           properties:
             message:
               type: string
-              example: Access token missing or expired!
+              example: 'Not found'

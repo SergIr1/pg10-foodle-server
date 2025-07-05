@@ -1,0 +1,30 @@
+tags:
+  - Auth
+summary: Get Google OAuth URL
+operationId: getGoogleOAuthUrl
+description: Returns the Google OAuth 2.0 URL for redirection
+security: []
+responses:
+  '200':
+    description: OAuth URL generated
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            url:
+              type: string
+              format: uri
+              example: 'https://accounts.google.com/o/oauth2/auth?...'
+  '400':
+    description: OAuth service unavailable or misconfigured
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: Google OAuth configuration error
+  '500':
+    $ref: '../../components/responses/500.yaml'

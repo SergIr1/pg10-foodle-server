@@ -1,0 +1,46 @@
+tags:
+  - Auth
+summary: Confirm Google OAuth
+operationId: confirmGoogleOAuth
+description: Completes the Google OAuth flow and logs the user in
+security: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - credential
+        properties:
+          code:
+            type: string
+            description: ID token from Google OAuth (JWT)
+            example: '4/P7q7W91a-oMsCeLvIaQm6bTrgtp7'
+responses:
+  '200':
+    description: Successfully authenticated with Google
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            token:
+              type: string
+              example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+            user:
+              type: object
+              properties:
+                id:
+                  type: string
+                  example: '64f72e9c2b1e4e0012c12345'
+                email:
+                  type: string
+                  example: user@example.com
+                name:
+                  type: string
+                  example: John Doe
+  '401':
+    $ref: '../../components/responses/401.yaml'
+  '500':
+    $ref: '../../components/responses/500.yaml'

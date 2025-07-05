@@ -1,0 +1,73 @@
+tags:
+  - Recipes
+summary: Create recipe
+operationId: createRecipe
+description: Create a new recipe
+security:
+  - bearerAuth: []
+requestBody:
+  content:
+    multipart/form-data:
+      schema:
+        type: object
+        required:
+          - title
+          - description
+          - time
+          - category
+          - instructions
+          - ingredients
+        properties:
+          title:
+            type: string
+            maxLength: 64
+            example: 'Spaghetti Bolognese'
+          description:
+            type: string
+            maxLength: 200
+            example: 'Classic Italian pasta with meat sauce'
+          time:
+            type: string
+            example: '30 minutes'
+          area:
+            type: string
+            maxLength: 64
+            example: 'Italian'
+          category:
+            type: string
+            example: 'Dinner'
+          instructions:
+            type: string
+            maxLength: 1200
+            example: 'Boil pasta. Cook meat with sauce. Mix together and serve.'
+          ingredients:
+            type: array
+            minItems: 1
+            items:
+              type: object
+              required:
+                - id
+                - measure
+              properties:
+                id:
+                  type: string
+                  format: objectId
+                  example: '60d0fe4f5311236168a109ca'
+                measure:
+                  type: string
+                  minLength: 2
+                  maxLength: 16
+                  example: '200g'
+          thumb:
+            type: string
+            format: binary
+
+responses:
+  '201':
+    $ref: ../../components/responses/201.yaml
+  '401':
+    $ref: ../../components/responses/401.yaml
+  '400':
+    $ref: ../../components/responses/400.yaml
+  '500':
+    $ref: ../../components/responses/500.yaml

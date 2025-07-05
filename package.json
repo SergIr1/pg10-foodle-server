@@ -38,6 +38,7 @@
     "mongoose": "^8.16.1",
     "multer": "^2.0.1",
     "nodemailer": "^7.0.3",
+    "openapi": "^1.0.1",
     "pino-http": "^10.5.0",
     "swagger-ui-express": "^5.0.1"
   },

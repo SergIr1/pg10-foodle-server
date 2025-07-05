@@ -1,0 +1,149 @@
+tags:
+  - Recipes
+summary: Get all recipes
+operationId: getRecipes
+description: Get list of all recipes with optional filters by category, ingredient, and search query.
+security: []
+parameters:
+  - in: query
+    name: page
+    schema:
+      type: integer
+      example: 1
+  - in: query
+    name: perPage
+    schema:
+      type: integer
+      example: 10
+  - in: query
+    name: query
+    schema:
+      type: string
+      example: Callaloo Jamaican Style
+  - in: query
+    name: category
+    schema:
+      type: string
+      enum:
+        [
+          'Seafood',
+          'Lamb',
+          'Starter',
+          'Chicken',
+          'Beef',
+          'Dessert',
+          'Vegan',
+          'Pork',
+          'Vegetarian',
+          'Miscellaneous',
+          'Pasta',
+          'Breakfast',
+          'Side',
+          'Goat',
+          'Soup',
+        ]
+      example: Soup
+  - in: query
+    name: ingredient
+    schema:
+      type: string
+      example: 640c2dd963a319ea671e370c
+responses:
+  '200':
+    description: Successfuly get all recipes list
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - data
+          properties:
+            status:
+              type: integer
+              example: 200
+            data:
+              type: object
+              required:
+                - data
+                - total
+                - page
+                - perPage
+                - totalPages
+              properties:
+                data:
+                  type: array
+                  items:
+                    $ref: '../../components/schemas/recipe.yaml'
+                _id:
+                  type: string
+                  description: Recipe id
+                  example: 6462a8f74c3d0ddd28897ff4
+                title:
+                  type: string
+                  description: Recipe title
+                  example: Thai Green Curry
+                category:
+                  type: string
+                  description: Recipe category
+                  example: Chicken
+                owner:
+                  type: string
+                  description: Recipe owner
+                  example: 64c8d958249fae54bae90bb9
+                area:
+                  type: string
+                  description: Recipe area
+                  example: Thai
+                instructions:
+                  type: string
+                  description: Recipe instructions
+                  example: Put the potatoes in a pan of boiling water and cook for 5 minutes...
+                description:
+                  type: string
+                  description: Recipe description
+                  example: A fragrant Thai dish made with coconut milk, green curry paste, and a...
+                thumb:
+                  type: string
+                  format: url
+                  description: Recipe photo url
+                  example: https://ftp.goit.study/img/so-yummy/preview/Thai%20Green%20Curry.jpg
+                time:
+                  type: string
+                  description: Cooking time in minutes
+                  example: 40
+                ingredients:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 640c2dd963a319ea671e3746
+                      measure:
+                        type: string
+                        example: '225g new'
+                createdAt:
+                  type: string
+                  format: date-time
+                updatedAt:
+                  type: string
+                  format: date-time
+            total:
+              type: integer
+              example: 120
+            page:
+              type: integer
+              example: 1
+            perPage:
+              type: integer
+              example: 10
+            totalPages:
+              type: integer
+              example: 12
+  '400':
+    $ref: ../../components/responses/400.yaml
+  '404':
+    $ref: ../../components/responses/404.yaml
+  '500':
+    $ref: ../../components/responses/500.yaml
