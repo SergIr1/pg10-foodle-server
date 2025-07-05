@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "lint": "eslint src/**/*.js",
+    "migr": "node ./src/scripts/migrateIngredientIds1.js",
     "dev": "nodemon src/index.js",
     "start": "node ./src/index.js",
     "build": "npm run build-docs",
