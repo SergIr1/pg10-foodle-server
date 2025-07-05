@@ -12,26 +12,13 @@ import { getOAuthURL, validateCode } from '../utils/googleOAuth.js';
 export const registerController = async (req, res, next) => {
   const user = await register(req.body);
 
-  const session = await login(req.body.email, req.body.password);
-
-  res.cookie('refreshToken', session.refreshToken, {
-    httpOnly: true,
-    expires: session.refreshTokenValidUntil,
-  });
-
-  res.cookie('sessionId', session._id, {
-    httpOnly: true,
-    expires: session.refreshTokenValidUntil,
-  });
-
   res.status(201).json({
     status: 201,
-    message: 'Successfully registered and logged in!',
-    data: {
-      user,
-      accessToken: session.accessToken,
-    },
+    message: 'Successfully registered a user!',
+    data: user,
   });
+
+  res.status(201).json({ message: 'User registered' });
 };
 
 export const loginController = async (req, res) => {

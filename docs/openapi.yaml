@@ -41,10 +41,10 @@ paths:
   /api/ingredients:
     get:
       $ref: ../swagger/path/ingredients/get.yaml
-  /api/recipes/favorites:
+  /api/recipes/favorite:
     get:
       $ref: ../swagger/path/recipes/favorite/get.yaml
-  /api/recipes/{recipeId}/favorites:
+  /api/recipes/{recipeId}/favorite:
     post:
       $ref: ../swagger/path/recipes/{id}/favorite/post.yaml
     delete:
