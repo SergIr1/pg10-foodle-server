@@ -11,10 +11,24 @@ responses:
       application/json:
         schema:
           type: object
+          required:
+            - status
+            - message
+            - data
           properties:
-            token:
+            status:
+              type: integer
+              example: 200
+            message:
               type: string
-              example: 'new-access-token-123'
+              example: Successfully refreshed a session!
+            data:
+              type: object
+              properties:
+                accessToken:
+                  type: string
+                  description: JWT access token
+                  example: nzJYhTq84BZQLAzm97So+PP3qUJSK0CPTitVOPbM
   '401':
     $ref: '../../components/responses/401.yaml'
   '500':

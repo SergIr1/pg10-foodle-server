@@ -11,11 +11,23 @@ responses:
       application/json:
         schema:
           type: object
+          required:
+            - status
+            - message
+            - data
           properties:
-            url:
+            status:
+              type: integer
+              example: 200
+            message:
               type: string
-              format: uri
-              example: 'https://accounts.google.com/o/oauth2/auth?...'
+              example: Successfully get OAuth url!
+            data:
+              type: object
+              properties:
+                oauth_url:
+                  type: string
+                  example: https://accounts.google.com/o/oauth2/v2/auth?scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile&response_type=code&client_id=830419899386-057s2qnlvcsikvj1ifc8cdvr9gjcqr8t.apps.googleusercontent.com&redirect_uri=https%3A%2F%2Fpg10-foodle-app.vercel.app%2F
   '400':
     description: OAuth service unavailable or misconfigured
     content:

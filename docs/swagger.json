@@ -63,11 +63,24 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "Successfully registered new user"
+                      "example": "Successfully registered and logged in!"
                     },
                     "data": {
                       "type": "object",
-                      "$ref": "#/components/schemas/user"
+                      "required": [
+                        "user",
+                        "accessToken"
+                      ],
+                      "properties": {
+                        "user": {
+                          "$ref": "#/components/schemas/user"
+                        },
+                        "accessToken": {
+                          "type": "string",
+                          "description": "JWT access token",
+                          "example": "9xw2KnAaDKAwhO92Jr0dSFFqVjFmqNO1uQfL7Wmp"
+                        }
+                      }
                     }
                   }
                 }
@@ -114,21 +127,34 @@
                   "type": "object",
                   "required": [
                     "status",
-                    "token",
-                    "user"
+                    "message",
+                    "data"
                   ],
                   "properties": {
                     "status": {
                       "type": "integer",
                       "example": 200
                     },
-                    "token": {
+                    "message": {
                       "type": "string",
-                      "description": "JWT access token",
-                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                      "example": "Successfully logged in an user!"
                     },
-                    "user": {
-                      "$ref": "#/components/schemas/user"
+                    "data": {
+                      "type": "object",
+                      "required": [
+                        "user",
+                        "accessToken"
+                      ],
+                      "properties": {
+                        "user": {
+                          "$ref": "#/components/schemas/user"
+                        },
+                        "accessToken": {
+                          "type": "string",
+                          "description": "JWT access token",
+                          "example": "9xw2KnAaDKAwhO92Jr0dSFFqVjFmqNO1uQfL7Wmp"
+                        }
+                      }
                     }
                   }
                 }
@@ -199,10 +225,29 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
                   "properties": {
-                    "token": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
                       "type": "string",
-                      "example": "new-access-token-123"
+                      "example": "Successfully refreshed a session!"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "accessToken": {
+                          "type": "string",
+                          "description": "JWT access token",
+                          "example": "nzJYhTq84BZQLAzm97So+PP3qUJSK0CPTitVOPbM"
+                        }
+                      }
                     }
                   }
                 }
@@ -234,11 +279,28 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
                   "properties": {
-                    "url": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
                       "type": "string",
-                      "format": "uri",
-                      "example": "https://accounts.google.com/o/oauth2/auth?..."
+                      "example": "Successfully get OAuth url!"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "oauth_url": {
+                          "type": "string",
+                          "example": "https://accounts.google.com/o/oauth2/v2/auth?scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile&response_type=code&client_id=830419899386-057s2qnlvcsikvj1ifc8cdvr9gjcqr8t.apps.googleusercontent.com&redirect_uri=https%3A%2F%2Fpg10-foodle-app.vercel.app%2F"
+                        }
+                      }
                     }
                   }
                 }
@@ -303,25 +365,26 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
                   "properties": {
-                    "token": {
-                      "type": "string",
-                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                    "status": {
+                      "type": "integer",
+                      "example": 200
                     },
-                    "user": {
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully login with Google!"
+                    },
+                    "data": {
                       "type": "object",
                       "properties": {
-                        "id": {
+                        "accessToken": {
                           "type": "string",
-                          "example": "64f72e9c2b1e4e0012c12345"
-                        },
-                        "email": {
-                          "type": "string",
-                          "example": "user@example.com"
-                        },
-                        "name": {
-                          "type": "string",
-                          "example": "John Doe"
+                          "example": "Pli2vcFXwxaXTE83f6dxmyhiHpWVwZJ0SiEuS8QC"
                         }
                       }
                     }
@@ -366,7 +429,7 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "Seccessfully fetched current user!"
+                      "example": "Current user retrieved successfully"
                     },
                     "data": {
                       "type": "object",
@@ -375,9 +438,50 @@
                           "type": "string",
                           "example": "60d0fe4f5311236168a109ca"
                         },
+                        "name": {
+                          "type": "string",
+                          "example": "Larry Pageim"
+                        },
                         "email": {
                           "type": "string",
-                          "example": "user@example.com"
+                          "example": "larry@example.com"
+                        },
+                        "avatar": {
+                          "oneOf": [
+                            {
+                              "type": "string",
+                              "format": "uri"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "example": "https://example.com/avatar.jpg"
+                        },
+                        "followers": {
+                          "type": "array"
+                        },
+                        "following": {
+                          "type": "array"
+                        },
+                        "favorites": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "example": "6462a8f74c3d0ddd2889800f"
+                          }
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "Ingredient created at",
+                          "example": "2025-06-20T14:51:07.199+00:00"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "Ingredient last updated at",
+                          "example": "2025-06-21T14:51:07.199+00:00"
                         }
                       }
                     }
@@ -1379,40 +1483,44 @@
         "required": [
           "_id",
           "name",
-          "email",
-          "favorites",
-          "own"
+          "email"
         ],
         "properties": {
           "_id": {
             "type": "string",
-            "description": "User id",
-            "example": "64c8d958249fae54bae90bb7"
+            "example": "60d0fe4f5311236168a109ca"
           },
           "name": {
             "type": "string",
-            "description": "User's name",
             "example": "Larry Pageim"
           },
           "email": {
             "type": "string",
-            "description": "User's email address",
-            "example": "larry@gmail.com"
+            "example": "larry@example.com"
+          },
+          "avatar": {
+            "oneOf": [
+              {
+                "type": "string",
+                "format": "uri"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "example": "https://example.com/avatar.jpg"
+          },
+          "followers": {
+            "type": "array"
+          },
+          "following": {
+            "type": "array"
           },
           "favorites": {
             "type": "array",
-            "description": "List of recipes IDs added to favorites",
             "items": {
               "type": "string",
-              "example": "6462a8f74c3d0ddd28898017"
-            }
-          },
-          "own": {
-            "type": "array",
-            "description": "List of recipes IDs created by user",
-            "items": {
-              "type": "string",
-              "example": "6462a8f74c3d0ddd28898017"
+              "example": "6462a8f74c3d0ddd2889800f"
             }
           },
           "createdAt": {

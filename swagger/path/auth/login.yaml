@@ -19,18 +19,27 @@ responses:
           type: object
           required:
             - status
-            - token
-            - user
+            - message
+            - data
           properties:
             status:
               type: integer
               example: 200
-            token:
+            message:
               type: string
-              description: JWT access token
-              example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
-            user:
-              $ref: ../../components/schemas/user.yaml
+              example: Successfully logged in an user!
+            data:
+              type: object
+              required:
+                - user
+                - accessToken
+              properties:
+                user:
+                  $ref: ../../components/schemas/user.yaml
+                accessToken:
+                  type: string
+                  description: JWT access token
+                  example: 9xw2KnAaDKAwhO92Jr0dSFFqVjFmqNO1uQfL7Wmp
   '400':
     description: Invalid email or password
     content:
