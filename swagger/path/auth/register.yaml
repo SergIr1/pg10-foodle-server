@@ -27,10 +27,19 @@ responses:
               example: 201
             message:
               type: string
-              example: Successfully registered new user
+              example: Successfully registered and logged in!
             data:
               type: object
-              $ref: ../../components/schemas/user.yaml
+              required:
+                - user
+                - accessToken
+              properties:
+                user:
+                  $ref: ../../components/schemas/user.yaml
+                accessToken:
+                  type: string
+                  description: JWT access token
+                  example: 9xw2KnAaDKAwhO92Jr0dSFFqVjFmqNO1uQfL7Wmp
   '400':
     $ref: ../../components/responses/400.yaml
   '409':
