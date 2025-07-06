@@ -263,7 +263,7 @@
         }
       }
     },
-    "/api/auth/google-oauth": {
+    "/api/auth/google-oauth-url": {
       "get": {
         "tags": [
           "Auth"
@@ -606,7 +606,7 @@
         }
       }
     },
-    "/api/recipes/favorites": {
+    "/api/recipes/favorite": {
       "get": {
         "tags": [
           "Recipes"
@@ -692,7 +692,7 @@
         }
       }
     },
-    "/api/recipes/{recipeId}/favorites": {
+    "/api/recipes/{recipeId}/favorite": {
       "post": {
         "tags": [
           "Recipes"

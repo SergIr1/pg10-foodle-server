@@ -37,7 +37,7 @@ export const registerController = async (req, res, next) => {
 export const loginController = async (req, res) => {
   const session = await login(req.body.email, req.body.password);
 
-  //   console.log('Created session:', session);
+  console.log('Created session:', session);
   const user = await UserModel.findById(session.userId);
 
   res.cookie('refreshToken', session.refreshToken, {

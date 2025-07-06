@@ -3,6 +3,7 @@ import {
   createRecipe,
   getOwnRecipes,
   getRecipeById,
+  getPaginatedFavoriteRecipes,
 } from '../services/recipes.js';
 import { parseFilterParams } from '../utils/parseFilterParams.js';
 import { parsePaginationParams } from '../utils/parsePaginationParams.js';
@@ -12,6 +13,7 @@ import createHttpError from 'http-errors';
 import { saveFileToUploadDir } from '../utils/saveFileToUploadDir.js';
 import { saveFileToCloudinary } from '../utils/saveFileToCloudinary.js';
 import { getEnvVar } from '../utils/getEnvVar.js';
+import { deleteOwnRecipe } from '../services/recipes.js';
 
 export const getRecipeByIdController = async (req, res, next) => {
   try {
@@ -126,24 +128,20 @@ export const removeFromFavoritesController = async (req, res) => {
 };
 
 export const getFavoriteRecipesController = async (req, res, next) => {
-  try {
-    const user = await UserModel.findById(req.user.id).populate('favorites');
+  const { page, perPage } = parsePaginationParams(req.query);
 
-    if (!user) {
-      throw new createHttpError.NotFound('User not found');
-    }
+  const result = await getPaginatedFavoriteRecipes(req.user.id, page, perPage);
 
-    res.status(200).json({
-      status: 200,
-      message: 'Favorites retrieved successfully',
-      data: user.favorites,
-    });
-  } catch (error) {
-    next(error);
+  if (result.data.length === 0) {
+    throw new createHttpError.NotFound('No favorite recipes found');
   }
-};
 
-import { deleteOwnRecipe } from '../services/recipes.js';
+  res.status(200).json({
+    status: 200,
+    message: 'Favorites retrieved successfully',
+    data: result,
+  });
+};
 
 export const deleteOwnRecipeController = async (req, res, next) => {
   const { recipeId } = req.params;

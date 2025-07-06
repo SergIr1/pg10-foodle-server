@@ -26,6 +26,7 @@ export const getOwnRecipes = async (userId, page = 1, perPage = 12) => {
   const [totalItems, data] = await Promise.all([
     RecipeCollections.countDocuments(query),
     RecipeCollections.find(query)
+      .populate('ingredients.id', '-__v')
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(perPage),
@@ -81,14 +82,42 @@ export const removeFavoriteRecipe = async (userId, recipeId) => {
 
   await user.save();
 };
-export const getFavoriteRecipes = async (userId) => {
-  const user = await UserModel.findById(userId).populate('favorites');
+export const getPaginatedFavoriteRecipes = async (
+  userId,
+  page = 1,
+  perPage = 12,
+) => {
+  const skip = (page - 1) * perPage;
+
+  const user = await UserModel.findById(userId);
 
   if (!user) {
     throw new createHttpError.NotFound('User not found');
   }
 
-  return user.favorites;
+  const favoriteIds = user.favorites;
+
+  const [totalItems, data] = await Promise.all([
+    RecipeCollections.countDocuments({ _id: { $in: favoriteIds } }),
+    RecipeCollections.find({ _id: { $in: favoriteIds } })
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(perPage)
+      .populate('ingredients.id', '-__v')
+      .populate('owner', 'name email avatar'),
+  ]);
+
+  const totalPages = Math.ceil(totalItems / perPage);
+
+  return {
+    data,
+    page,
+    perPage,
+    totalItems,
+    totalPages,
+    hasNextPage: page < totalPages,
+    hasPreviousPage: page > 1,
+  };
 };
 export const deleteOwnRecipe = async (userId, recipeId) => {
   const recipe = await RecipeCollections.findById(recipeId);
@@ -124,6 +153,7 @@ export const getPaginatedRecipes = async ({
   const [totalItems, data] = await Promise.all([
     RecipeCollections.countDocuments(filter),
     recipeQuery
+      .populate('ingredients.id', '-__v')
       .sort({ [sortBy]: sortOrder })
       .skip(skip)
       .limit(perPage),
