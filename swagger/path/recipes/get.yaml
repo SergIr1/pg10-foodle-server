@@ -10,16 +10,29 @@ parameters:
     schema:
       type: integer
       example: 1
+    description: Page number
   - in: query
     name: perPage
     schema:
       type: integer
       example: 10
+    description: Number of recipes per page
   - in: query
-    name: query
+    name: title
     schema:
       type: string
-      example: Callaloo Jamaican Style
+      example: Cake
+    description: Recipe title
+  - in: query
+    name: sortBy
+    schema:
+      type: string
+      enum: [title, createdAt]
+  - in: query
+    name: sortOrder
+    schema:
+      type: string
+      enum: [asc, desc]
   - in: query
     name: category
     schema:
@@ -42,12 +55,12 @@ parameters:
           'Goat',
           'Soup',
         ]
-      example: Soup
   - in: query
     name: ingredient
     schema:
       type: string
       example: 640c2dd963a319ea671e370c
+    description: ingredient ID
 responses:
   '200':
     description: Successfuly get all recipes list
@@ -66,10 +79,12 @@ responses:
               type: object
               required:
                 - data
-                - total
                 - page
                 - perPage
+                - totalItems
                 - totalPages
+                - hasNextPage
+                - hasPreviousPage
               properties:
                 data:
                   type: array
@@ -129,18 +144,24 @@ responses:
                 updatedAt:
                   type: string
                   format: date-time
-            total:
-              type: integer
-              example: 120
             page:
               type: integer
               example: 1
             perPage:
               type: integer
               example: 10
+            totalItems:
+              type: integer
+              example: 31
             totalPages:
               type: integer
-              example: 12
+              example: 4
+            hasNextPage:
+              type: integer
+              example: true
+            hasPreviousPage:
+              type: integer
+              example: false
   '400':
     $ref: ../../components/responses/400.yaml
   '404':

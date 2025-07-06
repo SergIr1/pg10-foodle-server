@@ -2,6 +2,7 @@ type: object
 required:
   - _id
   - name
+  - avatar
   - email
 properties:
   _id:
@@ -14,11 +15,11 @@ properties:
     type: string
     example: 'larry@example.com'
   avatar:
-    oneOf:
-      - type: string
-        format: uri
-      - type: 'null'
-    example: 'https://example.com/avatar.jpg'
+    type:
+      - integer
+      - 'null'
+    example: null
+
   followers:
     type: array
   following:

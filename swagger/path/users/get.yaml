@@ -32,11 +32,10 @@ responses:
                   type: string
                   example: 'larry@example.com'
                 avatar:
-                  oneOf:
-                    - type: string
-                      format: uri
-                    - type: 'null'
-                  example: 'https://example.com/avatar.jpg'
+                  type:
+                    - integer
+                    - 'null'
+                  example: null
                 followers:
                   type: array
                 following:

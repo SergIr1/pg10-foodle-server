@@ -14,19 +14,9 @@ parameters:
       type: string
       example: 6462a8f74c3d0ddd28897fcd
 responses:
-  '200':
+  '204':
     description: Successfully removed recipe from favorites
-    content:
-      application/json:
-        schema:
-          type: object
-          properties:
-            status:
-              type: integer
-              example: 200
-            message:
-              type: string
-              example: Recipe removed from favorites
+
   '401':
     $ref: ../../../../components/responses/401.yaml
   '404':

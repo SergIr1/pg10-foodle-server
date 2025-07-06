@@ -447,16 +447,11 @@
                           "example": "larry@example.com"
                         },
                         "avatar": {
-                          "oneOf": [
-                            {
-                              "type": "string",
-                              "format": "uri"
-                            },
-                            {
-                              "type": "null"
-                            }
+                          "type": [
+                            "integer",
+                            "null"
                           ],
-                          "example": "https://example.com/avatar.jpg"
+                          "example": null
                         },
                         "followers": {
                           "type": "array"
@@ -638,7 +633,7 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "Successfully found favorite recipes!"
+                      "example": "Favorites retrieved successfully"
                     },
                     "data": {
                       "type": "object",
@@ -725,6 +720,9 @@
                 "schema": {
                   "type": "object",
                   "properties": {
+                    "status": {
+                      "type": "integer"
+                    },
                     "message": {
                       "type": "string"
                     }
@@ -734,12 +732,14 @@
                   "AddedToFavorites": {
                     "summary": "Recipe added to favorites",
                     "value": {
+                      "status": 200,
                       "message": "Recipe added to favorites"
                     }
                   },
                   "AlreadyInFavorites": {
                     "summary": "Recipe is already in favorites",
                     "value": {
+                      "status": 200,
                       "message": "Recipe is already in favorites"
                     }
                   }
@@ -796,25 +796,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Successfully removed recipe from favorites",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "integer",
-                      "example": 200
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Recipe removed from favorites"
-                    }
-                  }
-                }
-              }
-            }
+          "204": {
+            "description": "Successfully removed recipe from favorites"
           },
           "401": {
             "$ref": "#/components/responses/401"
@@ -948,98 +931,6 @@
         }
       }
     },
-    "/api/recipes/{recipeId}/own": {
-      "delete": {
-        "tags": [
-          "Recipes"
-        ],
-        "summary": "Delete own recipe",
-        "operationId": "deleteOwnResipe",
-        "description": "Delete user's own recipe",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "recipeId",
-            "required": true,
-            "description": "ID of the recipe to remove from own recipes list",
-            "schema": {
-              "type": "string",
-              "example": "6462a8f74c3d0ddd28897fcd"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successfully deleted recipe!",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "integer",
-                      "example": 200
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Recipe was seccessfully deleted!"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "$ref": "#/components/responses/401"
-          },
-          "404": {
-            "description": "Recipe not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "status",
-                    "message",
-                    "data"
-                  ],
-                  "properties": {
-                    "status": {
-                      "type": "integer",
-                      "example": 401
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Recipe not found"
-                    },
-                    "data": {
-                      "type": "object",
-                      "required": [
-                        "message"
-                      ],
-                      "properties": {
-                        "message": {
-                          "type": "string",
-                          "example": "Recipe not found"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "500": {
-            "$ref": "#/components/responses/500"
-          }
-        }
-      }
-    },
     "/api/recipes": {
       "get": {
         "tags": [
@@ -1056,7 +947,8 @@
             "schema": {
               "type": "integer",
               "example": 1
-            }
+            },
+            "description": "Page number"
           },
           {
             "in": "query",
@@ -1064,14 +956,38 @@
             "schema": {
               "type": "integer",
               "example": 10
+            },
+            "description": "Number of recipes per page"
+          },
+          {
+            "in": "query",
+            "name": "title",
+            "schema": {
+              "type": "string",
+              "example": "Cake"
+            },
+            "description": "Recipe title"
+          },
+          {
+            "in": "query",
+            "name": "sortBy",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "title",
+                "createdAt"
+              ]
             }
           },
           {
             "in": "query",
-            "name": "query",
+            "name": "sortOrder",
             "schema": {
               "type": "string",
-              "example": "Callaloo Jamaican Style"
+              "enum": [
+                "asc",
+                "desc"
+              ]
             }
           },
           {
@@ -1095,8 +1011,7 @@
                 "Side",
                 "Goat",
                 "Soup"
-              ],
-              "example": "Soup"
+              ]
             }
           },
           {
@@ -1105,7 +1020,8 @@
             "schema": {
               "type": "string",
               "example": "640c2dd963a319ea671e370c"
-            }
+            },
+            "description": "ingredient ID"
           }
         ],
         "responses": {
@@ -1128,10 +1044,12 @@
                       "type": "object",
                       "required": [
                         "data",
-                        "total",
                         "page",
                         "perPage",
-                        "totalPages"
+                        "totalItems",
+                        "totalPages",
+                        "hasNextPage",
+                        "hasPreviousPage"
                       ],
                       "properties": {
                         "data": {
@@ -1212,10 +1130,6 @@
                         }
                       }
                     },
-                    "total": {
-                      "type": "integer",
-                      "example": 120
-                    },
                     "page": {
                       "type": "integer",
                       "example": 1
@@ -1224,9 +1138,21 @@
                       "type": "integer",
                       "example": 10
                     },
+                    "totalItems": {
+                      "type": "integer",
+                      "example": 31
+                    },
                     "totalPages": {
                       "type": "integer",
-                      "example": 12
+                      "example": 4
+                    },
+                    "hasNextPage": {
+                      "type": "integer",
+                      "example": true
+                    },
+                    "hasPreviousPage": {
+                      "type": "integer",
+                      "example": false
                     }
                   }
                 }
@@ -1483,6 +1409,7 @@
         "required": [
           "_id",
           "name",
+          "avatar",
           "email"
         ],
         "properties": {
@@ -1499,16 +1426,11 @@
             "example": "larry@example.com"
           },
           "avatar": {
-            "oneOf": [
-              {
-                "type": "string",
-                "format": "uri"
-              },
-              {
-                "type": "null"
-              }
+            "type": [
+              "integer",
+              "null"
             ],
-            "example": "https://example.com/avatar.jpg"
+            "example": null
           },
           "followers": {
             "type": "array"
@@ -1650,9 +1572,28 @@
             "example": "Dessert"
           },
           "owner": {
-            "type": "string",
-            "description": "Recipe owner's Id",
-            "example": "64c8d958249fae54bae90bb9"
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "example": "64c8d958249fae54bae90bb9"
+              },
+              "name": {
+                "type": "string",
+                "example": "Larry Pageim"
+              },
+              "avatar": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "example": null
+              },
+              "email": {
+                "type": "string",
+                "example": "larry@gmail.com"
+              }
+            }
           },
           "area": {
             "type": "string",
@@ -1686,12 +1627,34 @@
               "type": "object",
               "properties": {
                 "id": {
-                  "type": "string",
-                  "example": "640c2dd963a319ea671e367e"
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "640c2dd963a319ea671e367e"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Butter"
+                    },
+                    "desc": {
+                      "type": "string",
+                      "example": "A dairy product made from churning cream or milk, with a high fat content and a creamy, rich flavor that is often used in cooking and baking."
+                    },
+                    "img": {
+                      "type": "string",
+                      "format": "url",
+                      "example": "https://ftp.goit.study/img/so-yummy/ingredients/640c2dd963a319ea671e367e.png"
+                    }
+                  }
                 },
                 "measure": {
                   "type": "string",
-                  "example": "1 cups"
+                  "example": "50g"
+                },
+                "_id": {
+                  "type": "string",
+                  "example": "68683d8a969e7da7a2b39b3a"
                 }
               }
             }

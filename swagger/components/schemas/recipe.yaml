@@ -24,9 +24,22 @@ properties:
     description: Recipe category
     example: Dessert
   owner:
-    type: string
-    description: Recipe owner's Id
-    example: 64c8d958249fae54bae90bb9
+    type: object
+    properties:
+      _id:
+        type: string
+        example: 64c8d958249fae54bae90bb9
+      name:
+        type: string
+        example: Larry Pageim
+      avatar:
+        type:
+          - integer
+          - 'null'
+        example: null
+      email:
+        type: string
+        example: larry@gmail.com
   area:
     type: string
     description: Recipe origin area
@@ -54,11 +67,27 @@ properties:
       type: object
       properties:
         id:
-          type: string
-          example: 640c2dd963a319ea671e367e
+          type: object
+          properties:
+            _id:
+              type: string
+              example: 640c2dd963a319ea671e367e
+            name:
+              type: string
+              example: Butter
+            desc:
+              type: string
+              example: A dairy product made from churning cream or milk, with a high fat content and a creamy, rich flavor that is often used in cooking and baking.
+            img:
+              type: string
+              format: url
+              example: https://ftp.goit.study/img/so-yummy/ingredients/640c2dd963a319ea671e367e.png
         measure:
           type: string
-          example: '1 cups'
+          example: 50g
+        _id:
+          type: string
+          example: 68683d8a969e7da7a2b39b3a
   createdAt:
     type: string
     format: date-time

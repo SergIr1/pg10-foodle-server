@@ -22,7 +22,7 @@ responses:
               example: 200
             message:
               type: string
-              example: Successfully found favorite recipes!
+              example: Favorites retrieved successfully
             data:
               type: object
               properties:
