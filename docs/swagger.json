@@ -218,7 +218,7 @@
         }
       }
     },
-    "/api/auth/google-oauth": {
+    "/api/auth/google-oauth-url": {
       "get": {
         "tags": [
           "Auth"

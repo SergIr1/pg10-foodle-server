@@ -26,7 +26,7 @@ paths:
   /api/auth/refresh:
     post:
       $ref: ../swagger/path/auth/refresh.yaml
-  /api/auth/google-oauth:
+  /api/auth/google-oauth-url:
     get:
       $ref: ../swagger/path/auth/google-oauth.yaml
   /api/auth/confirm-oauth:
