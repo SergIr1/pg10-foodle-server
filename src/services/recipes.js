@@ -26,6 +26,7 @@ export const getOwnRecipes = async (userId, page = 1, perPage = 12) => {
   const [totalItems, data] = await Promise.all([
     RecipeCollections.countDocuments(query),
     RecipeCollections.find(query)
+      .populate('ingredients.id', '-__v')
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(perPage),
@@ -152,6 +153,7 @@ export const getPaginatedRecipes = async ({
   const [totalItems, data] = await Promise.all([
     RecipeCollections.countDocuments(filter),
     recipeQuery
+      .populate('ingredients.id', '-__v')
       .sort({ [sortBy]: sortOrder })
       .skip(skip)
       .limit(perPage),
