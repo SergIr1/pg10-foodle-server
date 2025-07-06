@@ -1,4 +1,4 @@
-import { UserModel } from '../db/models/user.js';
+// import { UserModel } from '../db/models/user.js';
 import {
   login,
   logout,
@@ -25,7 +25,7 @@ export const loginController = async (req, res) => {
   const session = await login(req.body.email, req.body.password);
 
   //   console.log('Created session:', session);
-  const user = await UserModel.findById(session.userId);
+  // const user = await UserModel.findById(session.userId);
 
   res.cookie('refreshToken', session.refreshToken, {
     httpOnly: true,
@@ -42,7 +42,7 @@ export const loginController = async (req, res) => {
     status: 200,
     message: 'Successfully logged in an user!',
     data: {
-      user,
+      // user,
       accessToken: session.accessToken,
     },
   });
