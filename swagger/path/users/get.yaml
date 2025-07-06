@@ -18,16 +18,43 @@ responses:
               example: 200
             message:
               type: string
-              example: Seccessfully fetched current user!
+              example: Current user retrieved successfully
             data:
               type: object
               properties:
                 _id:
                   type: string
                   example: '60d0fe4f5311236168a109ca'
+                name:
+                  type: string
+                  example: 'Larry Pageim'
                 email:
                   type: string
-                  example: 'user@example.com'
+                  example: 'larry@example.com'
+                avatar:
+                  type:
+                    - integer
+                    - 'null'
+                  example: null
+                followers:
+                  type: array
+                following:
+                  type: array
+                favorites:
+                  type: array
+                  items:
+                    type: string
+                    example: '6462a8f74c3d0ddd2889800f'
+                createdAt:
+                  type: string
+                  format: date-time
+                  description: Ingredient created at
+                  example: 2025-06-20T14:51:07.199+00:00
+                updatedAt:
+                  type: string
+                  format: date-time
+                  description: 'Ingredient last updated at'
+                  example: 2025-06-21T14:51:07.199+00:00
   '400':
     $ref: ../../components/responses/400.yaml
   '401':

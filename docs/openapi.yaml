@@ -52,9 +52,6 @@ paths:
   /api/recipes/own:
     get:
       $ref: ../swagger/path/recipes/own/get.yaml
-  /api/recipes/{recipeId}/own:
-    delete:
-      $ref: ../swagger/path/recipes/{id}/own/delete.yaml
   /api/recipes:
     get:
       $ref: ../swagger/path/recipes/get.yaml

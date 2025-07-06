@@ -63,11 +63,24 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "Successfully registered new user"
+                      "example": "Successfully registered and logged in!"
                     },
                     "data": {
                       "type": "object",
-                      "$ref": "#/components/schemas/user"
+                      "required": [
+                        "user",
+                        "accessToken"
+                      ],
+                      "properties": {
+                        "user": {
+                          "$ref": "#/components/schemas/user"
+                        },
+                        "accessToken": {
+                          "type": "string",
+                          "description": "JWT access token",
+                          "example": "9xw2KnAaDKAwhO92Jr0dSFFqVjFmqNO1uQfL7Wmp"
+                        }
+                      }
                     }
                   }
                 }
@@ -114,21 +127,34 @@
                   "type": "object",
                   "required": [
                     "status",
-                    "token",
-                    "user"
+                    "message",
+                    "data"
                   ],
                   "properties": {
                     "status": {
                       "type": "integer",
                       "example": 200
                     },
-                    "token": {
+                    "message": {
                       "type": "string",
-                      "description": "JWT access token",
-                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                      "example": "Successfully logged in an user!"
                     },
-                    "user": {
-                      "$ref": "#/components/schemas/user"
+                    "data": {
+                      "type": "object",
+                      "required": [
+                        "user",
+                        "accessToken"
+                      ],
+                      "properties": {
+                        "user": {
+                          "$ref": "#/components/schemas/user"
+                        },
+                        "accessToken": {
+                          "type": "string",
+                          "description": "JWT access token",
+                          "example": "9xw2KnAaDKAwhO92Jr0dSFFqVjFmqNO1uQfL7Wmp"
+                        }
+                      }
                     }
                   }
                 }
@@ -199,10 +225,29 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
                   "properties": {
-                    "token": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
                       "type": "string",
-                      "example": "new-access-token-123"
+                      "example": "Successfully refreshed a session!"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "accessToken": {
+                          "type": "string",
+                          "description": "JWT access token",
+                          "example": "nzJYhTq84BZQLAzm97So+PP3qUJSK0CPTitVOPbM"
+                        }
+                      }
                     }
                   }
                 }
@@ -234,11 +279,28 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
                   "properties": {
-                    "url": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
                       "type": "string",
-                      "format": "uri",
-                      "example": "https://accounts.google.com/o/oauth2/auth?..."
+                      "example": "Successfully get OAuth url!"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "oauth_url": {
+                          "type": "string",
+                          "example": "https://accounts.google.com/o/oauth2/v2/auth?scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile&response_type=code&client_id=830419899386-057s2qnlvcsikvj1ifc8cdvr9gjcqr8t.apps.googleusercontent.com&redirect_uri=https%3A%2F%2Fpg10-foodle-app.vercel.app%2F"
+                        }
+                      }
                     }
                   }
                 }
@@ -303,25 +365,26 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
                   "properties": {
-                    "token": {
-                      "type": "string",
-                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                    "status": {
+                      "type": "integer",
+                      "example": 200
                     },
-                    "user": {
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully login with Google!"
+                    },
+                    "data": {
                       "type": "object",
                       "properties": {
-                        "id": {
+                        "accessToken": {
                           "type": "string",
-                          "example": "64f72e9c2b1e4e0012c12345"
-                        },
-                        "email": {
-                          "type": "string",
-                          "example": "user@example.com"
-                        },
-                        "name": {
-                          "type": "string",
-                          "example": "John Doe"
+                          "example": "Pli2vcFXwxaXTE83f6dxmyhiHpWVwZJ0SiEuS8QC"
                         }
                       }
                     }
@@ -366,7 +429,7 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "Seccessfully fetched current user!"
+                      "example": "Current user retrieved successfully"
                     },
                     "data": {
                       "type": "object",
@@ -375,9 +438,45 @@
                           "type": "string",
                           "example": "60d0fe4f5311236168a109ca"
                         },
+                        "name": {
+                          "type": "string",
+                          "example": "Larry Pageim"
+                        },
                         "email": {
                           "type": "string",
-                          "example": "user@example.com"
+                          "example": "larry@example.com"
+                        },
+                        "avatar": {
+                          "type": [
+                            "integer",
+                            "null"
+                          ],
+                          "example": null
+                        },
+                        "followers": {
+                          "type": "array"
+                        },
+                        "following": {
+                          "type": "array"
+                        },
+                        "favorites": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "example": "6462a8f74c3d0ddd2889800f"
+                          }
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "Ingredient created at",
+                          "example": "2025-06-20T14:51:07.199+00:00"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "Ingredient last updated at",
+                          "example": "2025-06-21T14:51:07.199+00:00"
                         }
                       }
                     }
@@ -534,7 +633,7 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "Successfully found favorite recipes!"
+                      "example": "Favorites retrieved successfully"
                     },
                     "data": {
                       "type": "object",
@@ -621,6 +720,9 @@
                 "schema": {
                   "type": "object",
                   "properties": {
+                    "status": {
+                      "type": "integer"
+                    },
                     "message": {
                       "type": "string"
                     }
@@ -630,12 +732,14 @@
                   "AddedToFavorites": {
                     "summary": "Recipe added to favorites",
                     "value": {
+                      "status": 200,
                       "message": "Recipe added to favorites"
                     }
                   },
                   "AlreadyInFavorites": {
                     "summary": "Recipe is already in favorites",
                     "value": {
+                      "status": 200,
                       "message": "Recipe is already in favorites"
                     }
                   }
@@ -692,25 +796,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Successfully removed recipe from favorites",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "integer",
-                      "example": 200
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Recipe removed from favorites"
-                    }
-                  }
-                }
-              }
-            }
+          "204": {
+            "description": "Successfully removed recipe from favorites"
           },
           "401": {
             "$ref": "#/components/responses/401"
@@ -844,98 +931,6 @@
         }
       }
     },
-    "/api/recipes/{recipeId}/own": {
-      "delete": {
-        "tags": [
-          "Recipes"
-        ],
-        "summary": "Delete own recipe",
-        "operationId": "deleteOwnResipe",
-        "description": "Delete user's own recipe",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "recipeId",
-            "required": true,
-            "description": "ID of the recipe to remove from own recipes list",
-            "schema": {
-              "type": "string",
-              "example": "6462a8f74c3d0ddd28897fcd"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successfully deleted recipe!",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "integer",
-                      "example": 200
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Recipe was seccessfully deleted!"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "$ref": "#/components/responses/401"
-          },
-          "404": {
-            "description": "Recipe not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "status",
-                    "message",
-                    "data"
-                  ],
-                  "properties": {
-                    "status": {
-                      "type": "integer",
-                      "example": 401
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Recipe not found"
-                    },
-                    "data": {
-                      "type": "object",
-                      "required": [
-                        "message"
-                      ],
-                      "properties": {
-                        "message": {
-                          "type": "string",
-                          "example": "Recipe not found"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "500": {
-            "$ref": "#/components/responses/500"
-          }
-        }
-      }
-    },
     "/api/recipes": {
       "get": {
         "tags": [
@@ -952,7 +947,8 @@
             "schema": {
               "type": "integer",
               "example": 1
-            }
+            },
+            "description": "Page number"
           },
           {
             "in": "query",
@@ -960,14 +956,38 @@
             "schema": {
               "type": "integer",
               "example": 10
+            },
+            "description": "Number of recipes per page"
+          },
+          {
+            "in": "query",
+            "name": "title",
+            "schema": {
+              "type": "string",
+              "example": "Cake"
+            },
+            "description": "Recipe title"
+          },
+          {
+            "in": "query",
+            "name": "sortBy",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "title",
+                "createdAt"
+              ]
             }
           },
           {
             "in": "query",
-            "name": "query",
+            "name": "sortOrder",
             "schema": {
               "type": "string",
-              "example": "Callaloo Jamaican Style"
+              "enum": [
+                "asc",
+                "desc"
+              ]
             }
           },
           {
@@ -991,8 +1011,7 @@
                 "Side",
                 "Goat",
                 "Soup"
-              ],
-              "example": "Soup"
+              ]
             }
           },
           {
@@ -1001,7 +1020,8 @@
             "schema": {
               "type": "string",
               "example": "640c2dd963a319ea671e370c"
-            }
+            },
+            "description": "ingredient ID"
           }
         ],
         "responses": {
@@ -1024,10 +1044,12 @@
                       "type": "object",
                       "required": [
                         "data",
-                        "total",
                         "page",
                         "perPage",
-                        "totalPages"
+                        "totalItems",
+                        "totalPages",
+                        "hasNextPage",
+                        "hasPreviousPage"
                       ],
                       "properties": {
                         "data": {
@@ -1108,10 +1130,6 @@
                         }
                       }
                     },
-                    "total": {
-                      "type": "integer",
-                      "example": 120
-                    },
                     "page": {
                       "type": "integer",
                       "example": 1
@@ -1120,9 +1138,21 @@
                       "type": "integer",
                       "example": 10
                     },
+                    "totalItems": {
+                      "type": "integer",
+                      "example": 31
+                    },
                     "totalPages": {
                       "type": "integer",
-                      "example": 12
+                      "example": 4
+                    },
+                    "hasNextPage": {
+                      "type": "integer",
+                      "example": true
+                    },
+                    "hasPreviousPage": {
+                      "type": "integer",
+                      "example": false
                     }
                   }
                 }
@@ -1379,40 +1409,40 @@
         "required": [
           "_id",
           "name",
-          "email",
-          "favorites",
-          "own"
+          "avatar",
+          "email"
         ],
         "properties": {
           "_id": {
             "type": "string",
-            "description": "User id",
-            "example": "64c8d958249fae54bae90bb7"
+            "example": "60d0fe4f5311236168a109ca"
           },
           "name": {
             "type": "string",
-            "description": "User's name",
             "example": "Larry Pageim"
           },
           "email": {
             "type": "string",
-            "description": "User's email address",
-            "example": "larry@gmail.com"
+            "example": "larry@example.com"
+          },
+          "avatar": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "example": null
+          },
+          "followers": {
+            "type": "array"
+          },
+          "following": {
+            "type": "array"
           },
           "favorites": {
             "type": "array",
-            "description": "List of recipes IDs added to favorites",
             "items": {
               "type": "string",
-              "example": "6462a8f74c3d0ddd28898017"
-            }
-          },
-          "own": {
-            "type": "array",
-            "description": "List of recipes IDs created by user",
-            "items": {
-              "type": "string",
-              "example": "6462a8f74c3d0ddd28898017"
+              "example": "6462a8f74c3d0ddd2889800f"
             }
           },
           "createdAt": {
@@ -1542,9 +1572,28 @@
             "example": "Dessert"
           },
           "owner": {
-            "type": "string",
-            "description": "Recipe owner's Id",
-            "example": "64c8d958249fae54bae90bb9"
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "example": "64c8d958249fae54bae90bb9"
+              },
+              "name": {
+                "type": "string",
+                "example": "Larry Pageim"
+              },
+              "avatar": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "example": null
+              },
+              "email": {
+                "type": "string",
+                "example": "larry@gmail.com"
+              }
+            }
           },
           "area": {
             "type": "string",
@@ -1578,12 +1627,34 @@
               "type": "object",
               "properties": {
                 "id": {
-                  "type": "string",
-                  "example": "640c2dd963a319ea671e367e"
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "640c2dd963a319ea671e367e"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Butter"
+                    },
+                    "desc": {
+                      "type": "string",
+                      "example": "A dairy product made from churning cream or milk, with a high fat content and a creamy, rich flavor that is often used in cooking and baking."
+                    },
+                    "img": {
+                      "type": "string",
+                      "format": "url",
+                      "example": "https://ftp.goit.study/img/so-yummy/ingredients/640c2dd963a319ea671e367e.png"
+                    }
+                  }
                 },
                 "measure": {
                   "type": "string",
-                  "example": "1 cups"
+                  "example": "50g"
+                },
+                "_id": {
+                  "type": "string",
+                  "example": "68683d8a969e7da7a2b39b3a"
                 }
               }
             }

@@ -21,6 +21,8 @@ responses:
         schema:
           type: object
           properties:
+            status:
+              type: integer
             message:
               type: string
 
@@ -28,10 +30,12 @@ responses:
           AddedToFavorites:
             summary: Recipe added to favorites
             value:
+              status: 200
               message: Recipe added to favorites
           AlreadyInFavorites:
             summary: Recipe is already in favorites
             value:
+              status: 200
               message: Recipe is already in favorites
 
   '401':

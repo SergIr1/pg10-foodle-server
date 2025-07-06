@@ -24,22 +24,23 @@ responses:
       application/json:
         schema:
           type: object
+          required:
+            - status
+            - message
+            - data
           properties:
-            token:
+            status:
+              type: integer
+              example: 200
+            message:
               type: string
-              example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
-            user:
+              example: Successfully login with Google!
+            data:
               type: object
               properties:
-                id:
+                accessToken:
                   type: string
-                  example: '64f72e9c2b1e4e0012c12345'
-                email:
-                  type: string
-                  example: user@example.com
-                name:
-                  type: string
-                  example: John Doe
+                  example: Pli2vcFXwxaXTE83f6dxmyhiHpWVwZJ0SiEuS8QC
   '401':
     $ref: '../../components/responses/401.yaml'
   '500':
