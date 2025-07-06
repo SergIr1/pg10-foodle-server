@@ -127,7 +127,13 @@ export const removeFromFavoritesController = async (req, res) => {
 
 export const getFavoriteRecipesController = async (req, res, next) => {
   try {
-    const user = await UserModel.findById(req.user.id).populate('favorites');
+    const user = await UserModel.findById(req.user.id).populate({
+      path: 'favorites',
+      populate: {
+        path: 'ingredients.id',
+        select: '-__v',
+      },
+    });
 
     if (!user) {
       throw new createHttpError.NotFound('User not found');
