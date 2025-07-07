@@ -9,20 +9,38 @@ import {
 
 import { getOAuthURL, validateCode } from '../utils/googleOAuth.js';
 
+const getCookieOptions = (expires) => ({
+  httpOnly: true,
+  sameSite: 'None',
+  secure: true,
+  expires,
+});
+
 export const registerController = async (req, res, next) => {
   const user = await register(req.body);
 
   const session = await login(req.body.email, req.body.password);
 
-  res.cookie('refreshToken', session.refreshToken, {
-    httpOnly: true,
-    expires: session.refreshTokenValidUntil,
-  });
+  // res.cookie('refreshToken', session.refreshToken, {
+  //   httpOnly: true,
+  //   expires: session.refreshTokenValidUntil,
+  // });
 
-  res.cookie('sessionId', session._id, {
-    httpOnly: true,
-    expires: session.refreshTokenValidUntil,
-  });
+  // res.cookie('sessionId', session._id, {
+  //   httpOnly: true,
+  //   expires: session.refreshTokenValidUntil,
+  // });
+
+  res.cookie(
+    'refreshToken',
+    session.refreshToken,
+    getCookieOptions(session.refreshTokenValidUntil),
+  );
+  res.cookie(
+    'sessionId',
+    session._id,
+    getCookieOptions(session.refreshTokenValidUntil),
+  );
 
   res.status(201).json({
     status: 201,
@@ -40,16 +58,27 @@ export const loginController = async (req, res) => {
   console.log('Created session:', session);
   const user = await UserModel.findById(session.userId);
 
-  res.cookie('refreshToken', session.refreshToken, {
-    httpOnly: true,
-    expires: session.refreshTokenValidUntil,
-  });
+  // res.cookie('refreshToken', session.refreshToken, {
+  //   httpOnly: true,
+  //   expires: session.refreshTokenValidUntil,
+  // });
 
-  res.cookie('sessionId', session._id, {
-    httpOnly: true,
-    expires: session.refreshTokenValidUntil,
-    // expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
-  });
+  // res.cookie('sessionId', session._id, {
+  //   httpOnly: true,
+  //   expires: session.refreshTokenValidUntil,
+  //   // expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+  // });
+
+  res.cookie(
+    'refreshToken',
+    session.refreshToken,
+    getCookieOptions(session.refreshTokenValidUntil),
+  );
+  res.cookie(
+    'sessionId',
+    session._id,
+    getCookieOptions(session.refreshTokenValidUntil),
+  );
 
   res.status(200).json({
     status: 200,
@@ -72,8 +101,11 @@ export const logoutController = async (req, res) => {
     await logout(sessionId);
   }
 
-  res.clearCookie('sessionId');
-  res.clearCookie('refreshToken');
+  // res.clearCookie('sessionId');
+  // res.clearCookie('refreshToken');
+
+  res.clearCookie('sessionId', { sameSite: 'None', secure: true });
+  res.clearCookie('refreshToken', { sameSite: 'None', secure: true });
 
   res.status(204).end();
 };
@@ -83,15 +115,26 @@ export const refreshUserSessionController = async (req, res) => {
 
   const session = await refreshUserSession(sessionId, refreshToken);
 
-  res.cookie('refreshToken', session.refreshToken, {
-    httpOnly: true,
-    expires: session.refreshTokenValidUntil,
-  });
+  // res.cookie('refreshToken', session.refreshToken, {
+  //   httpOnly: true,
+  //   expires: session.refreshTokenValidUntil,
+  // });
 
-  res.cookie('sessionId', session._id, {
-    httpOnly: true,
-    expires: session.refreshTokenValidUntil,
-  });
+  // res.cookie('sessionId', session._id, {
+  //   httpOnly: true,
+  //   expires: session.refreshTokenValidUntil,
+  // });
+
+  res.cookie(
+    'refreshToken',
+    session.refreshToken,
+    getCookieOptions(session.refreshTokenValidUntil),
+  );
+  res.cookie(
+    'sessionId',
+    session._id,
+    getCookieOptions(session.refreshTokenValidUntil),
+  );
 
   res.json({
     status: 200,
@@ -124,15 +167,26 @@ export async function confirmOAuthController(req, res) {
     ticket.payload.name,
   );
 
-  res.cookie('sessionId', session._id, {
-    httpOnly: true,
-    expires: session.refreshTokenValidUntil,
-  });
+  // res.cookie('sessionId', session._id, {
+  //   httpOnly: true,
+  //   expires: session.refreshTokenValidUntil,
+  // });
 
-  res.cookie('refreshToken', session.refreshToken, {
-    httpOnly: true,
-    expires: session.refreshTokenValidUntil,
-  });
+  // res.cookie('refreshToken', session.refreshToken, {
+  //   httpOnly: true,
+  //   expires: session.refreshTokenValidUntil,
+  // });
+
+  res.cookie(
+    'sessionId',
+    session._id,
+    getCookieOptions(session.refreshTokenValidUntil),
+  );
+  res.cookie(
+    'refreshToken',
+    session.refreshToken,
+    getCookieOptions(session.refreshTokenValidUntil),
+  );
 
   res.json({
     status: 200,

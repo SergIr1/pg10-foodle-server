@@ -38,7 +38,7 @@ export const login = async (email, password) => {
     userId: user._id,
     accessToken,
     refreshToken,
-    accessTokenValidUntil: new Date(Date.now() + 1 * 60 * 1000),
+    accessTokenValidUntil: new Date(Date.now() + 15 * 60 * 1000),
     refreshTokenValidUntil: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
   });
 
@@ -56,7 +56,7 @@ const createSession = () => {
   return {
     accessToken,
     refreshToken,
-    accessTokenValidUntil: new Date(Date.now() + 1 * 60 * 1000),
+    accessTokenValidUntil: new Date(Date.now() + 1 * 60 * 1000), // 15 * 60 * 1000
     refreshTokenValidUntil: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
   };
 };
@@ -64,13 +64,16 @@ const createSession = () => {
 export const refreshUserSession = async (sessionId, refreshToken) => {
   const session = await SessionCollection.findOne({ _id: sessionId });
 
-  if (session === null) {
-    throw createHttpError(401, 'Session not found');
-  }
+  // if (session === null) {
+  //   throw createHttpError(401, 'Session not found');
+  // }
 
-  if (session.refreshToken !== refreshToken) {
-    throw createHttpError(401, 'Refresh token is invalid');
-  }
+  // if (session.refreshToken !== refreshToken) {
+  //   throw createHttpError(401, 'Refresh token is invalid');
+  // }
+  if (!session || session.refreshToken !== refreshToken) {
+    throw createHttpError(401, 'Refresh token or session is invalid');
+  } // добавил
 
   if (session.refreshTokenValidUntil < Date.now()) {
     throw createHttpError(401, 'Refresh token is expired');
@@ -78,12 +81,25 @@ export const refreshUserSession = async (sessionId, refreshToken) => {
 
   const newSession = createSession();
 
-  await SessionCollection.deleteOne({ _id: sessionId, refreshToken });
+  // await SessionCollection.deleteOne({ _id: sessionId, refreshToken });
+  await SessionCollection.deleteOne({ _id: sessionId });
 
-  return await SessionCollection.create({
+  // return await SessionCollection.create({
+  //   userId: session.userId,
+  //   ...newSession,
+  // });
+  const created = await SessionCollection.create({
     userId: session.userId,
     ...newSession,
-  });
+  }); // добавил
+
+  return {
+    sessionId: created._id,
+    accessToken: created.accessToken,
+    refreshToken: created.refreshToken,
+    accessTokenValidUntil: created.accessTokenValidUntil,
+    refreshTokenValidUntil: created.refreshTokenValidUntil,
+  }; // добавил
 };
 
 //GOOGLE AUTH
@@ -109,7 +125,7 @@ export async function loginOrRegister(email, name) {
     userId: user._id,
     accessToken,
     refreshToken,
-    accessTokenValidUntil: new Date(Date.now() + 1 * 60 * 1000),
+    accessTokenValidUntil: new Date(Date.now() + 15 * 60 * 1000),
     refreshTokenValidUntil: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
   });
 
