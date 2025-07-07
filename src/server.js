@@ -17,7 +17,7 @@ export const setupServer = () => {
   // app.use(cors());
   app.use(
     cors({
-      origin: 'https://pg10-foodle-app.vercel.app',
+      origin: ['http://localhost:5173', 'https://pg10-foodle-app.vercel.app'],
       credentials: true,
     }),
   ); // добавил
