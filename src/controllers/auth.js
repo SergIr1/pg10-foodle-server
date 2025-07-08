@@ -12,7 +12,7 @@ import { getOAuthURL, validateCode } from '../utils/googleOAuth.js';
 const getCookieOptions = (expires) => ({
   httpOnly: true,
   sameSite: 'None',
-  secure: true,
+  // secure: true,
   expires,
 });
 

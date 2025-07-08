@@ -38,7 +38,7 @@ export const login = async (email, password) => {
     userId: user._id,
     accessToken,
     refreshToken,
-    accessTokenValidUntil: new Date(Date.now() + 15 * 60 * 1000), // 15 * 60 * 1000
+    accessTokenValidUntil: new Date(Date.now() + 1 * 60 * 1000), // 15 * 60 * 1000
     refreshTokenValidUntil: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
   });
 
@@ -56,7 +56,7 @@ const createSession = () => {
   return {
     accessToken,
     refreshToken,
-    accessTokenValidUntil: new Date(Date.now() + 15 * 60 * 1000), // 15 * 60 * 1000
+    accessTokenValidUntil: new Date(Date.now() + 1 * 60 * 1000), // 15 * 60 * 1000
     refreshTokenValidUntil: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
   };
 };
@@ -113,7 +113,7 @@ export async function loginOrRegister(email, name) {
     userId: user._id,
     accessToken,
     refreshToken,
-    accessTokenValidUntil: new Date(Date.now() + 15 * 60 * 1000),
+    accessTokenValidUntil: new Date(Date.now() + 1 * 60 * 1000),
     refreshTokenValidUntil: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
   });
 
