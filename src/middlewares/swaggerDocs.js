@@ -38,7 +38,7 @@ export const swaggerDocs = () => {
     router.get(
       '/',
       (req, res, next) => {
-        res.clearCookie('connect.sid', {
+        res.clearCookie('sessionId', {
           path: '/',
           httpOnly: true,
           sameSite: 'Lax',
