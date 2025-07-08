@@ -33,9 +33,15 @@ export const swaggerDocs = () => {
   try {
     const swaggerDoc = JSON.parse(fs.readFileSync(SWAGGER_PATH).toString());
 
-    // Middleware для очистки sessionId cookie
     router.use((req, res, next) => {
-      res.setHeader('Set-Cookie', 'sessionId=; Max-Age=0; Path=/; HttpOnly');
+      const originalEnd = res.end;
+      res.end = function (...args) {
+        res.setHeader(
+          'Set-Cookie',
+          'sessionId=; Max-Age=0; Path=/; HttpOnly; SameSite=Lax',
+        );
+        return originalEnd.apply(this, args);
+      };
       next();
     });
 
@@ -44,7 +50,7 @@ export const swaggerDocs = () => {
       '/',
       swaggerUI.setup(swaggerDoc, {
         swaggerOptions: {
-          persistAuthorization: false, // Вимикаю збереження авторизації
+          persistAuthorization: false,
         },
       }),
     );
