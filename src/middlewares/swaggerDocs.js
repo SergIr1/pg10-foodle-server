@@ -33,21 +33,17 @@ export const swaggerDocs = () => {
   try {
     const swaggerDoc = JSON.parse(fs.readFileSync(SWAGGER_PATH).toString());
 
-    router.use((req, res, next) => {
-      const originalEnd = res.end;
-      res.end = function (...args) {
+    router.use(swaggerUI.serve);
+
+    router.get(
+      '/',
+      (req, res, next) => {
         res.setHeader(
           'Set-Cookie',
           'sessionId=; Max-Age=0; Path=/; HttpOnly; SameSite=Lax',
         );
-        return originalEnd.apply(this, args);
-      };
-      next();
-    });
-
-    router.use(swaggerUI.serve);
-    router.get(
-      '/',
+        next(); // <--- важливо!
+      },
       swaggerUI.setup(swaggerDoc, {
         swaggerOptions: {
           persistAuthorization: false,
@@ -58,7 +54,7 @@ export const swaggerDocs = () => {
     router.use((req, res, next) =>
       next(
         createHttpError(500, "Can't load swagger docs", {
-          errors: err.details,
+          errors: err?.details || err?.message,
         }),
       ),
     );
