@@ -11,9 +11,10 @@ import { getOAuthURL, validateCode } from '../utils/googleOAuth.js';
 
 const getCookieOptions = (expires) => ({
   httpOnly: true,
-  // sameSite: 'None',
+  // sameSite: 'None', // для продакшену
   sameSite: 'Lax',
-  // secure: true, тимчасово вимкнув щоб http локалхосту потестити
+  // secure: true, // для продакшену
+  secure: false,
   expires,
 });
 
@@ -39,7 +40,7 @@ export const registerController = async (req, res, next) => {
   );
   res.cookie(
     'sessionId',
-    session._id,
+    session._id.toString(), // добавил .toString()
     getCookieOptions(session.refreshTokenValidUntil),
   );
 
@@ -77,7 +78,7 @@ export const loginController = async (req, res) => {
   );
   res.cookie(
     'sessionId',
-    session._id,
+    session._id.toString(), // добавил .toString()
     getCookieOptions(session.refreshTokenValidUntil),
   );
 
@@ -105,8 +106,8 @@ export const logoutController = async (req, res) => {
   // res.clearCookie('sessionId');
   // res.clearCookie('refreshToken');
 
-  res.clearCookie('sessionId', { sameSite: 'None', secure: true });
-  res.clearCookie('refreshToken', { sameSite: 'None', secure: true });
+  res.clearCookie('sessionId', { sameSite: 'Lax', secure: true }); //поменял sameSite: 'None' на sameSite: 'Lax'
+  res.clearCookie('refreshToken', { sameSite: 'Lax', secure: true }); //поменял sameSite: 'None' на sameSite: 'Lax'
 
   res.status(204).end();
 };
@@ -137,7 +138,7 @@ export const refreshUserSessionController = async (req, res) => {
   );
   res.cookie(
     'sessionId',
-    session._id,
+    session._id.toString(), // добавил .toString()
     getCookieOptions(session.refreshTokenValidUntil),
   );
 
@@ -184,7 +185,7 @@ export async function confirmOAuthController(req, res) {
 
   res.cookie(
     'sessionId',
-    session._id,
+    session._id.toString(), // добавил .toString()
     getCookieOptions(session.refreshTokenValidUntil),
   );
   res.cookie(
