@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt';
-import crypto, { randomBytes } from 'node:crypto';
+// import crypto, { randomBytes } from 'node:crypto';
+import crypto from 'node:crypto';
 import createHttpError from 'http-errors';
 import { SessionCollection } from '../db/models/sessions.js';
 import { UserModel } from '../db/models/user.js';
@@ -49,17 +50,17 @@ export const logout = async (sessionId) => {
   await SessionCollection.deleteOne({ _id: sessionId });
 };
 
-const createSession = () => {
-  const accessToken = randomBytes(30).toString('base64');
-  const refreshToken = randomBytes(30).toString('base64');
+// const createSession = () => {
+//   const accessToken = randomBytes(30).toString('base64');
+//   const refreshToken = randomBytes(30).toString('base64');
 
-  return {
-    accessToken,
-    refreshToken,
-    accessTokenValidUntil: new Date(Date.now() + 1 * 60 * 1000), // 15 * 60 * 1000
-    refreshTokenValidUntil: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-  };
-};
+//   return {
+//     accessToken,
+//     refreshToken,
+//     accessTokenValidUntil: new Date(Date.now() + 1 * 60 * 1000), // 15 * 60 * 1000
+//     refreshTokenValidUntil: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+//   };
+// };
 
 export const refreshUserSession = async (sessionId, refreshToken) => {
   const session = await SessionCollection.findOne({ _id: sessionId });
@@ -79,27 +80,28 @@ export const refreshUserSession = async (sessionId, refreshToken) => {
     throw createHttpError(401, 'Refresh token is expired');
   }
 
-  const newSession = createSession();
+  // const newSession = createSession();
 
   // await SessionCollection.deleteOne({ _id: sessionId, refreshToken });
-  await SessionCollection.deleteOne({ _id: sessionId });
+  // await SessionCollection.deleteOne({ _id: sessionId });
 
   // return await SessionCollection.create({
   //   userId: session.userId,
   //   ...newSession,
   // });
-  const created = await SessionCollection.create({
-    userId: session.userId,
-    ...newSession,
-  }); // добавил
+  const newAccessToken = crypto.randomBytes(30).toString('base64');
+  session.accessToken = newAccessToken;
+  session.accessTokenValidUntil = new Date(Date.now() + 1 * 60 * 1000); // або 15 хв
+
+  await session.save();
 
   return {
-    sessionId: created._id,
-    accessToken: created.accessToken,
-    refreshToken: created.refreshToken,
-    accessTokenValidUntil: created.accessTokenValidUntil,
-    refreshTokenValidUntil: created.refreshTokenValidUntil,
-  }; // добавил
+    sessionId: session._id,
+    accessToken: session.accessToken,
+    refreshToken: session.refreshToken,
+    accessTokenValidUntil: session.accessTokenValidUntil,
+    refreshTokenValidUntil: session.refreshTokenValidUntil,
+  };
 };
 
 //GOOGLE AUTH
