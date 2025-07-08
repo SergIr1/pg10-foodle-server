@@ -17,7 +17,7 @@ responses:
               example: 200
             message:
               type: string
-              example: Seccessfully fetched list of ingredients!
+              example: Successfully fetched ingredients!
             data:
               type: array
               items:

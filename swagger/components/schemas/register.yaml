@@ -13,7 +13,7 @@ properties:
     type: string
     maxLength: 128
     description: User email address
-    example: larry@mail.com
+    example: larry@gmail.com
   password:
     type: string
     minLength: 8
