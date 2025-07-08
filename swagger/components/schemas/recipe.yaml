@@ -96,5 +96,5 @@ properties:
   updatedAt:
     type: string
     format: date-time
-    description: 'Recipe last updated at'
+    description: Recipe last updated at
     example: 2025-06-21T14:51:07.199+00:00
