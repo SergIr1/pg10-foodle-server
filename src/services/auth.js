@@ -64,13 +64,13 @@ const createSession = () => {
 export const refreshUserSession = async (sessionId, refreshToken) => {
   const session = await SessionCollection.findOne({ _id: sessionId });
 
-  // if (session === null) {
-  //   throw createHttpError(401, 'Session not found');
-  // }
+  if (session === null) {
+    throw createHttpError(401, 'Session not found');
+  }
 
-  // if (session.refreshToken !== refreshToken) {
-  //   throw createHttpError(401, 'Refresh token is invalid');
-  // }
+  if (session.refreshToken !== refreshToken) {
+    throw createHttpError(401, 'Refresh token is invalid');
+  }
   if (!session || session.refreshToken !== refreshToken) {
     throw createHttpError(401, 'Refresh token or session is invalid');
   } // добавил
