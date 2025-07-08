@@ -11,8 +11,9 @@ import { getOAuthURL, validateCode } from '../utils/googleOAuth.js';
 
 const getCookieOptions = (expires) => ({
   httpOnly: true,
-  sameSite: 'None',
-  // secure: true,
+  // sameSite: 'None',
+  sameSite: 'Lax',
+  // secure: true, тимчасово вимкнув щоб http локалхосту потестити
   expires,
 });
 
