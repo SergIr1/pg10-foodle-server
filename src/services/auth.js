@@ -107,7 +107,8 @@ export async function loginOrRegister(email, name) {
   const accessToken = crypto.randomBytes(30).toString('base64');
   const refreshToken = crypto.randomBytes(30).toString('base64');
 
-  await SessionCollection.deleteOne({ userId: user._id, refreshToken });
+  // await SessionCollection.deleteOne({ userId: user._id, refreshToken });
+  await SessionCollection.deleteMany({ userId: user._id });
 
   const session = await SessionCollection.create({
     userId: user._id,
