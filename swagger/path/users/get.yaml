@@ -30,7 +30,7 @@ responses:
                   example: 'Larry Pageim'
                 email:
                   type: string
-                  example: 'larry@example.com'
+                  example: 'larry@gmail.com'
                 avatar:
                   type:
                     - integer
@@ -48,12 +48,12 @@ responses:
                 createdAt:
                   type: string
                   format: date-time
-                  description: Ingredient created at
+                  description: User created at
                   example: 2025-06-20T14:51:07.199+00:00
                 updatedAt:
                   type: string
                   format: date-time
-                  description: 'Ingredient last updated at'
+                  description: User last updated at
                   example: 2025-06-21T14:51:07.199+00:00
   '400':
     $ref: ../../components/responses/400.yaml

@@ -75,6 +75,9 @@ responses:
             status:
               type: integer
               example: 200
+            message:
+              type: string
+              example: Successfully retrieved recipes!
             data:
               type: object
               required:

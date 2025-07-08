@@ -13,7 +13,7 @@ content:
           example: 201
         message:
           type: string
-          example: Successfully created a recipe!
+          example: Recipe created successfully
         data:
           type: object
           $ref: ../schemas/recipe.yaml

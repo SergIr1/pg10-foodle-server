@@ -21,7 +21,7 @@ responses:
               example: 200
             message:
               type: string
-              example: Successfully found all categories!
+              example: Categories fetched successfully
             data:
               type: array
               items:

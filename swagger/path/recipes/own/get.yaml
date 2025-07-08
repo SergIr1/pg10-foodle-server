@@ -22,7 +22,7 @@ responses:
               example: 200
             message:
               type: string
-              example: Successfully found own recipes!
+              example: Successfully retrieved own recipes!
             data:
               type: object
               properties:
