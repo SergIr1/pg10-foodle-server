@@ -38,11 +38,12 @@ export const swaggerDocs = () => {
     router.get(
       '/',
       (req, res, next) => {
-        res.setHeader(
-          'Set-Cookie',
-          'sessionId=; Max-Age=0; Path=/; HttpOnly; SameSite=Lax',
-        );
-        next(); // <--- важливо!
+        res.clearCookie('connect.sid', {
+          path: '/',
+          httpOnly: true,
+          sameSite: 'Lax',
+        });
+        next();
       },
       swaggerUI.setup(swaggerDoc, {
         swaggerOptions: {
