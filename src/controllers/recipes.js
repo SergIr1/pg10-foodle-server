@@ -61,13 +61,16 @@ export const getOwnRecipesController = async (req, res) => {
 
   const result = await getOwnRecipes(req.user.id, page, perPage);
 
-  if (result.data.length === 0) {
-    throw new createHttpError.NotFound('You have no recipes');
-  }
+  // if (result.data.length === 0) {
+  //   throw new createHttpError.NotFound('You have no recipes');
+  // }
 
   res.status(200).json({
     status: 200,
-    message: 'Successfully retrieved own recipes!',
+    message: result.data.length
+      ? 'Successfully retrieved own recipes!'
+      : 'You have no recipes',
+    // message: 'Successfully retrieved own recipes!',
     data: result,
   });
 };
@@ -132,13 +135,15 @@ export const getFavoriteRecipesController = async (req, res, next) => {
 
   const result = await getPaginatedFavoriteRecipes(req.user.id, page, perPage);
 
-  if (result.data.length === 0) {
-    throw new createHttpError.NotFound('No favorite recipes found');
-  }
+  // if (result.data.length === 0) {
+  //   throw new createHttpError.NotFound('No favorite recipes found');
+  // }
 
   res.status(200).json({
     status: 200,
-    message: 'Favorites retrieved successfully',
+    message: result.data.length
+      ? 'Favorites retrieved successfully'
+      : 'No favorite recipes found',
     data: result,
   });
 };
