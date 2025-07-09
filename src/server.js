@@ -28,12 +28,24 @@ export const setupServer = () => {
 
   app.use('/uploads', express.static(UPLOAD_DIR));
 
+  // app.use(
+  //   pino({
+  //     transport: {
+  //       target: 'pino-pretty',
+  //     },
+  //   }),
+  // );
+
   app.use(
-    pino({
-      transport: {
-        target: 'pino-pretty',
-      },
-    }),
+    pino(
+      process.env.NODE_ENV === 'development'
+        ? {
+            transport: {
+              target: 'pino-pretty',
+            },
+          }
+        : {},
+    ),
   );
 
   app.get('/', (req, res) => {
