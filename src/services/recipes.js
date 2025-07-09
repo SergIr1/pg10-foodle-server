@@ -98,7 +98,9 @@ export const getPaginatedFavoriteRecipes = async (
 
   // const favoriteIds = user.favorites; // било
 
-  const favoriteIds = user.favorites.map((id) => mongoose.Types.ObjectId(id));
+  const favoriteIds = user.favorites.map(
+    (id) => new mongoose.Types.ObjectId(id),
+  );
 
   const [totalItems, data] = await Promise.all([
     RecipeCollections.countDocuments({ _id: { $in: favoriteIds } }),
