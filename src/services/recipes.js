@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import { RecipeCollections } from '../db/models/recipe.js';
 import { UserModel } from '../db/models/user.js';
 import createHttpError from 'http-errors';
@@ -95,7 +96,9 @@ export const getPaginatedFavoriteRecipes = async (
     throw new createHttpError.NotFound('User not found');
   }
 
-  const favoriteIds = user.favorites;
+  // const favoriteIds = user.favorites; // било
+
+  const favoriteIds = user.favorites.map((id) => mongoose.Types.ObjectId(id));
 
   const [totalItems, data] = await Promise.all([
     RecipeCollections.countDocuments({ _id: { $in: favoriteIds } }),
