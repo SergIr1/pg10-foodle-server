@@ -91,6 +91,7 @@ export const getPaginatedFavoriteRecipes = async (
   const skip = (page - 1) * perPage;
 
   const user = await UserModel.findById(userId);
+  // const user = await UserModel.findById(userId).lean();
 
   if (!user) {
     throw new createHttpError.NotFound('User not found');
@@ -99,8 +100,23 @@ export const getPaginatedFavoriteRecipes = async (
   // const favoriteIds = user.favorites; // било
 
   const favoriteIds = user.favorites.map(
-    (id) => new mongoose.Types.ObjectId(id),
+    (id) => new mongoose.Types.ObjectId(id), // било
   );
+
+  // const favoriteIds = user.favorites.map((id) =>
+  //   typeof id === 'string' ? new mongoose.Types.ObjectId(id) : id,
+  // );
+  if (!favoriteIds.length) {
+    return {
+      data: [],
+      page,
+      perPage,
+      totalItems: 0,
+      totalPages: 0,
+      hasNextPage: false,
+      hasPreviousPage: false,
+    };
+  }
 
   const [totalItems, data] = await Promise.all([
     RecipeCollections.countDocuments({ _id: { $in: favoriteIds } }),
