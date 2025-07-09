@@ -12,9 +12,11 @@ import { getOAuthURL, validateCode } from '../utils/googleOAuth.js';
 const getCookieOptions = (expires) => ({
   httpOnly: true,
   // sameSite: 'None', // для продакшену
-  sameSite: 'Lax',
+  // sameSite: 'Lax', // для локального
   // secure: true, // для продакшену
-  secure: false,
+  // secure: false, // для локального
+  sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
+  secure: process.env.NODE_ENV === 'production',
   expires,
 });
 
@@ -106,8 +108,11 @@ export const logoutController = async (req, res) => {
   // res.clearCookie('sessionId');
   // res.clearCookie('refreshToken');
 
-  res.clearCookie('sessionId', { sameSite: 'Lax', secure: true }); //поменял sameSite: 'None' на sameSite: 'Lax'
-  res.clearCookie('refreshToken', { sameSite: 'Lax', secure: true }); //поменял sameSite: 'None' на sameSite: 'Lax'
+  // res.clearCookie('sessionId', { sameSite: 'Lax', secure: true }); //поменял sameSite: 'None' на sameSite: 'Lax'
+  // res.clearCookie('refreshToken', { sameSite: 'Lax', secure: true }); //поменял sameSite: 'None' на sameSite: 'Lax'
+
+  res.clearCookie('sessionId', getCookieOptions());
+  res.clearCookie('refreshToken', getCookieOptions());
 
   res.status(204).end();
 };

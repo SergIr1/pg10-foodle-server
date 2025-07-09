@@ -47,7 +47,7 @@ export const swaggerDocs = () => {
       },
       swaggerUI.setup(swaggerDoc, {
         swaggerOptions: {
-          persistAuthorization: false,
+          persistAuthorization: process.env.NODE_ENV !== 'production',
         },
       }),
     );
