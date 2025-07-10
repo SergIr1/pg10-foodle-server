@@ -1,4 +1,3 @@
-import createHttpError from 'http-errors';
 import { UserModel } from '../db/models/user.js';
 import {
   login,
@@ -159,6 +158,63 @@ export const refreshUserSessionController = async (req, res) => {
 
 //GOOGLE AUTH
 
+// export function getOAuthController(req, res) {
+//   const url = getOAuthURL();
+
+//   res.json({
+//     status: 200,
+//     message: 'Successfully get OAuth url!',
+//     data: {
+//       oauth_url: url,
+//     },
+//   });
+// }
+
+// export async function confirmOAuthController(req, res, next) {
+//   try {
+//     const ticket = await validateCode(req.body.code);
+//     if (!ticket || typeof ticket.getPayload !== 'function') {
+//       console.error('Invalid ticket:', ticket);
+//       throw createHttpError(400, 'Google token verification failed');
+//     }
+//     console.log('Code:', req.body.code);
+
+//     const payload = ticket.getPayload();
+//     console.log('Google ticket payload:', payload);
+
+//     if (!payload || !payload.email) {
+//       console.error('Invalid Google ticket payload:', payload);
+//       throw createHttpError(400, 'Email not found in Google response');
+//     }
+
+//     const session = await loginOrRegister(payload.email, payload.name);
+
+//     res.cookie(
+//       'sessionId',
+//       session._id.toString(),
+//       getCookieOptions(session.refreshTokenValidUntil),
+//     );
+//     res.cookie(
+//       'refreshToken',
+//       session.refreshToken,
+//       getCookieOptions(session.refreshTokenValidUntil),
+//     );
+
+//     res.json({
+//       status: 200,
+//       message: 'Successfully login with Google!',
+//       data: {
+//         accessToken: session.accessToken,
+//       },
+//     });
+//   } catch (error) {
+//     console.error('Error in confirmOAuthController:', error);
+//     next(error); // або res.status(500).json(...)
+//   }
+// }
+
+//GOOGLE AUTH
+
 export function getOAuthController(req, res) {
   const url = getOAuthURL();
 
@@ -171,45 +227,29 @@ export function getOAuthController(req, res) {
   });
 }
 
-export async function confirmOAuthController(req, res, next) {
-  try {
-    const ticket = await validateCode(req.body.code);
-    if (!ticket || typeof ticket.getPayload !== 'function') {
-      console.error('Invalid ticket:', ticket);
-      throw createHttpError(400, 'Google token verification failed');
-    }
-    console.log('Code:', req.body.code);
+export async function confirmOAuthController(req, res) {
+  const ticket = await validateCode(req.body.code);
 
-    const payload = ticket.getPayload();
-    console.log('Google ticket payload:', payload);
+  const session = await loginOrRegister(
+    ticket.payload.email,
+    ticket.payload.name,
+  );
 
-    if (!payload || !payload.email) {
-      console.error('Invalid Google ticket payload:', payload);
-      throw createHttpError(400, 'Email not found in Google response');
-    }
+  res.cookie('sessionId', session._id, {
+    httpOnly: true,
+    expires: session.refreshTokenValidUntil,
+  });
 
-    const session = await loginOrRegister(payload.email, payload.name);
+  res.cookie('refreshToken', session.refreshToken, {
+    httpOnly: true,
+    expires: session.refreshTokenValidUntil,
+  });
 
-    res.cookie(
-      'sessionId',
-      session._id.toString(),
-      getCookieOptions(session.refreshTokenValidUntil),
-    );
-    res.cookie(
-      'refreshToken',
-      session.refreshToken,
-      getCookieOptions(session.refreshTokenValidUntil),
-    );
-
-    res.json({
-      status: 200,
-      message: 'Successfully login with Google!',
-      data: {
-        accessToken: session.accessToken,
-      },
-    });
-  } catch (error) {
-    console.error('Error in confirmOAuthController:', error);
-    next(error); // або res.status(500).json(...)
-  }
+  res.json({
+    status: 200,
+    message: 'Successfully login with Google!',
+    data: {
+      accessToken: session.accessToken,
+    },
+  });
 }

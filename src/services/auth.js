@@ -92,10 +92,47 @@ export const refreshUserSession = async (sessionId, refreshToken) => {
 
 //GOOGLE AUTH
 
-export async function loginOrRegister(email, name) {
-  if (!email) throw createHttpError(400, 'Email is required');
-  if (!name || typeof name !== 'string') name = 'Google User';
+// export async function loginOrRegister(email, name) {
+//   if (!email) throw createHttpError(400, 'Email is required');
+//   if (!name || typeof name !== 'string') name = 'Google User';
 
+//   let user = await UserModel.findOne({ email });
+
+//   if (user === null) {
+//     const password = await bcrypt.hash(
+//       crypto.randomBytes(30).toString('base64'),
+//       10,
+//     );
+
+//     try {
+//       user = await UserModel.create({ name, email, password });
+//     } catch (err) {
+//       if (err.code === 11000) {
+//         user = await UserModel.findOne({ email });
+//       } else {
+//         console.error('Failed to create user:', err);
+//         throw err;
+//       }
+//     }
+//   }
+
+//   await SessionCollection.deleteMany({ userId: user._id });
+
+//   const accessToken = crypto.randomBytes(30).toString('base64');
+//   const refreshToken = crypto.randomBytes(30).toString('base64');
+
+//   const session = await SessionCollection.create({
+//     userId: user._id,
+//     accessToken,
+//     refreshToken,
+//     accessTokenValidUntil: new Date(Date.now() + 30 * 60 * 1000),
+//     refreshTokenValidUntil: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+//   });
+
+//   return session;
+// }
+
+export async function loginOrRegister(email, name) {
   let user = await UserModel.findOne({ email });
 
   if (user === null) {
@@ -104,28 +141,19 @@ export async function loginOrRegister(email, name) {
       10,
     );
 
-    try {
-      user = await UserModel.create({ name, email, password });
-    } catch (err) {
-      if (err.code === 11000) {
-        user = await UserModel.findOne({ email });
-      } else {
-        console.error('Failed to create user:', err);
-        throw err;
-      }
-    }
+    user = await UserModel.create({ name, email, password });
   }
-
-  await SessionCollection.deleteMany({ userId: user._id });
 
   const accessToken = crypto.randomBytes(30).toString('base64');
   const refreshToken = crypto.randomBytes(30).toString('base64');
+
+  await SessionCollection.deleteOne({ userId: user._id, refreshToken });
 
   const session = await SessionCollection.create({
     userId: user._id,
     accessToken,
     refreshToken,
-    accessTokenValidUntil: new Date(Date.now() + 30 * 60 * 1000),
+    accessTokenValidUntil: new Date(Date.now() + 15 * 60 * 1000),
     refreshTokenValidUntil: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
   });
 
