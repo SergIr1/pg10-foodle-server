@@ -93,6 +93,8 @@ export const refreshUserSession = async (sessionId, refreshToken) => {
 //GOOGLE AUTH
 
 export async function loginOrRegister(email, name) {
+  if (!email) throw createHttpError(400, 'Email is required');
+  if (!name || typeof name !== 'string') name = 'Google User';
   let user = await UserModel.findOne({ email });
 
   if (user === null) {
@@ -100,6 +102,10 @@ export async function loginOrRegister(email, name) {
       crypto.randomBytes(30).toString('base64'),
       10,
     );
+
+    // if (!name || typeof name !== 'string') {
+    //   name = 'Google User';
+    // }
 
     user = await UserModel.create({ name, email, password });
   }
