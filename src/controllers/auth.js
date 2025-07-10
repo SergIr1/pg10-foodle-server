@@ -171,48 +171,41 @@ export function getOAuthController(req, res) {
   });
 }
 
-export async function confirmOAuthController(req, res) {
-  const ticket = await validateCode(req.body.code);
-  console.log('Code:', req.body.code);
+export async function confirmOAuthController(req, res, next) {
+  try {
+    const ticket = await validateCode(req.body.code);
+    console.log('Code:', req.body.code);
 
-  const payload = ticket.getPayload();
+    const payload = ticket.getPayload();
+    console.log('Google ticket payload:', payload);
 
-  console.log('Google ticket payload:', payload);
-  if (!payload?.email) {
-    console.error('Invalid Google ticket:', payload);
-    throw createHttpError(400, 'Email not found in Google response');
+    if (!payload?.email) {
+      console.error('Invalid Google ticket:', payload);
+      throw createHttpError(400, 'Email not found in Google response');
+    }
+
+    const session = await loginOrRegister(payload.email, payload.name);
+
+    res.cookie(
+      'sessionId',
+      session._id.toString(),
+      getCookieOptions(session.refreshTokenValidUntil),
+    );
+    res.cookie(
+      'refreshToken',
+      session.refreshToken,
+      getCookieOptions(session.refreshTokenValidUntil),
+    );
+
+    res.json({
+      status: 200,
+      message: 'Successfully login with Google!',
+      data: {
+        accessToken: session.accessToken,
+      },
+    });
+  } catch (error) {
+    console.error('Error in confirmOAuthController:', error);
+    next(error); // або res.status(500).json(...)
   }
-
-  const session = await loginOrRegister(payload.email, payload.name);
-  // ticket.payload.email, // вернуть
-  // ticket.payload.name, // вернуть
-
-  // res.cookie('sessionId', session._id, {
-  //   httpOnly: true,
-  //   expires: session.refreshTokenValidUntil,
-  // });
-
-  // res.cookie('refreshToken', session.refreshToken, {
-  //   httpOnly: true,
-  //   expires: session.refreshTokenValidUntil,
-  // });
-
-  res.cookie(
-    'sessionId',
-    session._id.toString(), // добавил .toString()
-    getCookieOptions(session.refreshTokenValidUntil),
-  );
-  res.cookie(
-    'refreshToken',
-    session.refreshToken,
-    getCookieOptions(session.refreshTokenValidUntil),
-  );
-
-  res.json({
-    status: 200,
-    message: 'Successfully login with Google!',
-    data: {
-      accessToken: session.accessToken,
-    },
-  });
 }

@@ -95,6 +95,7 @@ export const refreshUserSession = async (sessionId, refreshToken) => {
 export async function loginOrRegister(email, name) {
   if (!email) throw createHttpError(400, 'Email is required');
   if (!name || typeof name !== 'string') name = 'Google User';
+
   let user = await UserModel.findOne({ email });
 
   if (user === null) {
@@ -103,18 +104,22 @@ export async function loginOrRegister(email, name) {
       10,
     );
 
-    // if (!name || typeof name !== 'string') {
-    //   name = 'Google User';
-    // }
-
-    user = await UserModel.create({ name, email, password });
+    try {
+      user = await UserModel.create({ name, email, password });
+    } catch (err) {
+      if (err.code === 11000) {
+        user = await UserModel.findOne({ email });
+      } else {
+        console.error('Failed to create user:', err);
+        throw err;
+      }
+    }
   }
+
+  await SessionCollection.deleteMany({ userId: user._id });
 
   const accessToken = crypto.randomBytes(30).toString('base64');
   const refreshToken = crypto.randomBytes(30).toString('base64');
-
-  // await SessionCollection.deleteOne({ userId: user._id, refreshToken });
-  await SessionCollection.deleteMany({ userId: user._id });
 
   const session = await SessionCollection.create({
     userId: user._id,
