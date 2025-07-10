@@ -174,13 +174,17 @@ export function getOAuthController(req, res) {
 export async function confirmOAuthController(req, res, next) {
   try {
     const ticket = await validateCode(req.body.code);
+    if (!ticket || typeof ticket.getPayload !== 'function') {
+      console.error('Invalid ticket:', ticket);
+      throw createHttpError(400, 'Google token verification failed');
+    }
     console.log('Code:', req.body.code);
 
     const payload = ticket.getPayload();
     console.log('Google ticket payload:', payload);
 
-    if (!payload?.email) {
-      console.error('Invalid Google ticket:', payload);
+    if (!payload || !payload.email) {
+      console.error('Invalid Google ticket payload:', payload);
       throw createHttpError(400, 'Email not found in Google response');
     }
 
