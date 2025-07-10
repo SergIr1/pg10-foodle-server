@@ -1,3 +1,4 @@
+import createHttpError from 'http-errors';
 import { UserModel } from '../db/models/user.js';
 import {
   login,
@@ -173,10 +174,16 @@ export function getOAuthController(req, res) {
 export async function confirmOAuthController(req, res) {
   const ticket = await validateCode(req.body.code);
 
-  const session = await loginOrRegister(
-    ticket.payload.email,
-    ticket.payload.name,
-  );
+  const payload = ticket?.getPayload();
+
+  if (!ticket?.payload?.email) {
+    console.error('Invalid Google ticket:', ticket);
+    throw createHttpError(400, 'Email not found in Google response');
+  }
+
+  const session = await loginOrRegister(payload.email, payload.name);
+  // ticket.payload.email, // вернуть
+  // ticket.payload.name, // вернуть
 
   // res.cookie('sessionId', session._id, {
   //   httpOnly: true,

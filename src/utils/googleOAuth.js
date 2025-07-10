@@ -42,5 +42,7 @@ export async function validateCode(code) {
     audience: getEnvVar('GOOGLE_AUTH_CLIENT_ID'),
   });
 
+  console.log('Google ticket payload:', ticket.getPayload());
+
   return ticket;
 }
