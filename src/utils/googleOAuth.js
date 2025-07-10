@@ -8,8 +8,17 @@ const googleOAuthClient = new OAuth2Client({
 });
 
 export function getOAuthURL() {
+  // return googleOAuthClient.generateAuthUrl({
+  //   scope: [
+  //     'https://www.googleapis.com/auth/userinfo.email',
+  //     'https://www.googleapis.com/auth/userinfo.profile',
+  //   ],
+  // });
   return googleOAuthClient.generateAuthUrl({
+    access_type: 'offline',
+    prompt: 'consent',
     scope: [
+      'openid',
       'https://www.googleapis.com/auth/userinfo.email',
       'https://www.googleapis.com/auth/userinfo.profile',
     ],
@@ -17,10 +26,20 @@ export function getOAuthURL() {
 }
 
 export async function validateCode(code) {
-  const response = await googleOAuthClient.getToken(code);
+  // const response = await googleOAuthClient.getToken(code);
+
+  // const ticket = await googleOAuthClient.verifyIdToken({
+  //   idToken: response.tokens.id_token,
+  // });
+  const { tokens } = await googleOAuthClient.getToken(code);
+
+  if (!tokens.id_token) {
+    throw new Error('No id_token returned from Google');
+  }
 
   const ticket = await googleOAuthClient.verifyIdToken({
-    idToken: response.tokens.id_token,
+    idToken: tokens.id_token,
+    audience: getEnvVar('GOOGLE_AUTH_CLIENT_ID'),
   });
 
   return ticket;
