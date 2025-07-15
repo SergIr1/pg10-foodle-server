@@ -14,13 +14,13 @@ const PORT = Number(getEnvVar('PORT', '3000'));
 
 export const setupServer = () => {
   app.use(express.json());
-  // app.use(cors());
-  app.use(
-    cors({
-      origin: ['http://localhost:5173', 'https://pg10-foodle-app.vercel.app'],
-      credentials: true,
-    }),
-  ); // добавил
+  app.use(cors());
+  // app.use(
+  //   cors({
+  //     origin: ['http://localhost:5173', 'https://pg10-foodle-app.vercel.app'],
+  //     credentials: true,
+  //   }),
+  // ); // добавил
   app.use(cookieParser());
 
   app.use('/uploads', express.static(UPLOAD_DIR));

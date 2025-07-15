@@ -11,6 +11,9 @@
   },
   "servers": [
     {
+      "url": "http://127.0.0.1:3000"
+    },
+    {
       "url": "https://pg10-foodle-server.onrender.com"
     }
   ],
@@ -444,7 +447,7 @@
                         },
                         "email": {
                           "type": "string",
-                          "example": "larry@example.com"
+                          "example": "larry@gmail.com"
                         },
                         "avatar": {
                           "type": [
@@ -469,13 +472,13 @@
                         "createdAt": {
                           "type": "string",
                           "format": "date-time",
-                          "description": "Ingredient created at",
+                          "description": "User created at",
                           "example": "2025-06-20T14:51:07.199+00:00"
                         },
                         "updatedAt": {
                           "type": "string",
                           "format": "date-time",
-                          "description": "Ingredient last updated at",
+                          "description": "User last updated at",
                           "example": "2025-06-21T14:51:07.199+00:00"
                         }
                       }
@@ -528,7 +531,7 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "Successfully found all categories!"
+                      "example": "Categories fetched successfully"
                     },
                     "data": {
                       "type": "array",
@@ -576,7 +579,7 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "Seccessfully fetched list of ingredients!"
+                      "example": "Successfully fetched ingredients!"
                     },
                     "data": {
                       "type": "array",
@@ -877,7 +880,7 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "Successfully found own recipes!"
+                      "example": "Successfully retrieved own recipes!"
                     },
                     "data": {
                       "type": "object",
@@ -1039,6 +1042,10 @@
                     "status": {
                       "type": "integer",
                       "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully retrieved recipes!"
                     },
                     "data": {
                       "type": "object",
@@ -1312,7 +1319,7 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "Successfully found recipe with id 65ca67e7ae7f10c88b598384!"
+                      "example": "Recipe retrieved successfully"
                     },
                     "data": {
                       "type": "object",
@@ -1393,7 +1400,7 @@
             "type": "string",
             "maxLength": 128,
             "description": "User email address",
-            "example": "larry@mail.com"
+            "example": "larry@gmail.com"
           },
           "password": {
             "type": "string",
@@ -1423,7 +1430,7 @@
           },
           "email": {
             "type": "string",
-            "example": "larry@example.com"
+            "example": "larry@gmail.com"
           },
           "avatar": {
             "type": [
@@ -1448,13 +1455,13 @@
           "createdAt": {
             "type": "string",
             "format": "date-time",
-            "description": "Ingredient created at",
+            "description": "User created at",
             "example": "2025-06-20T14:51:07.199+00:00"
           },
           "updatedAt": {
             "type": "string",
             "format": "date-time",
-            "description": "Ingredient last updated at",
+            "description": "User last updated at",
             "example": "2025-06-21T14:51:07.199+00:00"
           }
         }
@@ -1526,18 +1533,6 @@
             "format": "url",
             "description": "Photo of the ingredient",
             "example": "https://ftp.goit.study/img/so-yummy/ingredients/640c2dd963a319ea671e37c2.png"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Ingredient created at",
-            "example": "2025-06-20T14:51:07.199+00:00"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Ingredient last updated at",
-            "example": "2025-06-21T14:51:07.199+00:00"
           }
         }
       },
@@ -1662,13 +1657,13 @@
           "createdAt": {
             "type": "string",
             "format": "date-time",
-            "description": "Ingredient created at",
+            "description": "Recipe created at",
             "example": "2025-06-20T14:51:07.199+00:00"
           },
           "updatedAt": {
             "type": "string",
             "format": "date-time",
-            "description": "Ingredient last updated at",
+            "description": "Recipe last updated at",
             "example": "2025-06-21T14:51:07.199+00:00"
           }
         }
@@ -1693,7 +1688,7 @@
                 },
                 "message": {
                   "type": "string",
-                  "example": "Successfully created a recipe!"
+                  "example": "Recipe created successfully"
                 },
                 "data": {
                   "type": "object",
