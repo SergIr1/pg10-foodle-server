@@ -147,24 +147,24 @@ responses:
                 updatedAt:
                   type: string
                   format: date-time
-            page:
-              type: integer
-              example: 1
-            perPage:
-              type: integer
-              example: 10
-            totalItems:
-              type: integer
-              example: 31
-            totalPages:
-              type: integer
-              example: 4
-            hasNextPage:
-              type: integer
-              example: true
-            hasPreviousPage:
-              type: integer
-              example: false
+                page:
+                  type: integer
+                  example: 1
+                perPage:
+                  type: integer
+                  example: 10
+                totalItems:
+                  type: integer
+                  example: 31
+                totalPages:
+                  type: integer
+                  example: 4
+                hasNextPage:
+                  type: integer
+                  example: true
+                hasPreviousPage:
+                  type: integer
+                  example: false
   '400':
     $ref: ../../components/responses/400.yaml
   '404':

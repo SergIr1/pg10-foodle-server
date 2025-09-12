@@ -12,12 +12,12 @@ import { getOAuthURL, validateCode } from '../utils/googleOAuth.js';
 
 const getCookieOptions = (expires) => ({
   httpOnly: true,
-  // sameSite: 'None', // для продакшену
+  sameSite: 'None', // для продакшену
   // sameSite: 'Lax', // для локального
-  // secure: true, // для продакшену
+  secure: true, // для продакшену
   // secure: false, // для локального
-  sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
-  secure: process.env.NODE_ENV === 'production',
+  // sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
+  // secure: process.env.NODE_ENV === 'production',
   expires,
 });
 

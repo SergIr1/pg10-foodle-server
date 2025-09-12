@@ -11,9 +11,6 @@
   },
   "servers": [
     {
-      "url": "http://127.0.0.1:3000"
-    },
-    {
       "url": "https://pg10-foodle-server.onrender.com"
     }
   ],
@@ -348,7 +345,7 @@
               "schema": {
                 "type": "object",
                 "required": [
-                  "credential"
+                  "code"
                 ],
                 "properties": {
                   "code": {
@@ -1134,32 +1131,32 @@
                         "updatedAt": {
                           "type": "string",
                           "format": "date-time"
+                        },
+                        "page": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "perPage": {
+                          "type": "integer",
+                          "example": 10
+                        },
+                        "totalItems": {
+                          "type": "integer",
+                          "example": 31
+                        },
+                        "totalPages": {
+                          "type": "integer",
+                          "example": 4
+                        },
+                        "hasNextPage": {
+                          "type": "integer",
+                          "example": true
+                        },
+                        "hasPreviousPage": {
+                          "type": "integer",
+                          "example": false
                         }
                       }
-                    },
-                    "page": {
-                      "type": "integer",
-                      "example": 1
-                    },
-                    "perPage": {
-                      "type": "integer",
-                      "example": 10
-                    },
-                    "totalItems": {
-                      "type": "integer",
-                      "example": 31
-                    },
-                    "totalPages": {
-                      "type": "integer",
-                      "example": 4
-                    },
-                    "hasNextPage": {
-                      "type": "integer",
-                      "example": true
-                    },
-                    "hasPreviousPage": {
-                      "type": "integer",
-                      "example": false
                     }
                   }
                 }

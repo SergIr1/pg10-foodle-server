@@ -11,7 +11,8 @@ requestBody:
       schema:
         type: object
         required:
-          - credential
+          # - credential
+          - code
         properties:
           code:
             type: string
